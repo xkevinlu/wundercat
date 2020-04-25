@@ -8,27 +8,59 @@
 </head>
 
 <body>
-  <div class="flex-row controls-top">
-      <div class="flex-row controls-top">
-    <h2>Ballpen</h2>
-    <p><a href="collision.html">Collision</a></p>
-    </div>
-    <span>
-      <label for="fname">Ball count:</label>
-      <input type="number" id="bcount" name="bcount" value="">
-      <button onclick="setBalls()">Set</button>
-    </span>
-    <div>
-      <label class="switch" onchange="toggleGravity()">
-        <input type="checkbox">
-        <span class="slider round"></span>
-      </label>
-      <button onclick="restart()">Restart</button>
-    </div>
+  <div class="navbar">
+    <span>Blogname</span>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
   </div>
-  <canvas></canvas>
+  <div class="page-container">
+    <h1 class="text-center">Visualizing an Epidemic</h1>
+    <h5 class="text-center author">by Kevin Lu, May 1, 2020</h6>
+      <div class="flex-row justify-center">
+        <canvas id="simulation"></canvas>
+      </div>
+      <div class="flex-row justify-center">
+        <label for="transmissionRatio">Chance to spread %:</label>
+        <input type="number" id="transmissionRatio" min="0" max="100">
+        <input type="checkbox" id="lockdownCheckbox" onclick="toggleLockdown()">
+        <label for="lockdownCheckbox">Lockdown</label>
+        <button onclick="restart()">Restart</button>
+      </div>
+      <div class="flex-row align-top justify-center">
+        <div>
+          <canvas id="status-chart">
+          </canvas>
+        </div>
+        <div class="legend-group">
+          <div class="legend">
+            <div class="legend-icon healthy"></div>
+            <label id="healthy">Healthy:</label>
+          </div>
+          <div class="legend">
+            <div class="legend-icon infected"></div>
+            <label id="infected">Infected:</label>
+          </div>
+          <div class="legend">
+            <div class="legend-icon removed"></div>
+            <label id="removed">Removed:</label>
+          </div>
+        </div>
+      </div>
+      <p>Disclaimer: this is not a model of the COVID-19 pandemic, but rather a visualization for the concept of spreading epidemics.</p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at arcu fringilla, condimentum dolor et, mattis orci. Cras pellentesque vitae nibh at faucibus. Cras urna justo, lacinia a mollis vitae, placerat eget nisl. Ut vehicula, justo non semper vestibulum, odio metus tempus dolor, vitae blandit ante massa vel mi. Duis aliquet felis augue, at mattis purus vestibulum quis. Integer fringilla dapibus ex, et pellentesque lacus ultricies ut. Integer magna nibh, bibendum in pretium interdum, interdum in mi. Nam pellentesque risus egestas rhoncus dictum. Praesent nec leo quis massa lacinia bibendum ut id nulla. Mauris dui nulla, fringilla non dui egestas, gravida ultrices nisi.
 
+        Duis tincidunt bibendum nisi, sit amet mattis tellus sagittis in. Maecenas a leo a enim gravida facilisis ac dictum lacus. Suspendisse tincidunt consequat dolor. Morbi in odio at enim molestie bibendum. Integer viverra urna ut velit mollis malesuada. Mauris varius enim diam, sit amet cursus sem finibus in. Aenean blandit dignissim justo, vitae aliquet lectus rhoncus quis.
 
-  <script src="js/gravity.js"></script>
-</body>
-</html>
+        Cras accumsan varius mi, lobortis auctor nisl rhoncus in. Integer sit amet facilisis lorem, rhoncus sagittis orci. Praesent eget dui rhoncus, gravida erat ut, mattis dui. Sed aliquet accumsan justo ac pretium. Aliquam ut consectetur lorem. Donec tellus erat, pulvinar ac felis non, mattis pharetra lectus. Maecenas sit amet quam pretium, rutrum mi ac, ullamcorper dui. In vitae sagittis ante, et tristique augue. Ut auctor nunc id augue aliquam facilisis. Sed vitae ligula dapibus, finibus magna quis, efficitur tellus. Vivamus varius sapien felis, quis lacinia tortor iaculis in. Nam sagittis porta elementum. Vivamus sit amet suscipit velit. Pellentesque placerat pharetra faucibus. Praesent dignissim mi eu urna molestie commodo. Praesent ultrices vehicula odio sed feugiat.
+      </p>
+    </div>
+
+    <script type="text/javascript" src="js/dat.gui.js"></script>
+    <script src="js/infection.js"></script>
+  </body>
+  </html>
