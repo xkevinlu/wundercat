@@ -5,7 +5,7 @@ function Simulation() {
   this.infectionDuration = 5000;
   this.transmissionRatio = 0.5;
   this.lockdownFactor = 0.1;
-  this.totalCount = 100;
+  this.totalCount = 200;
   this.radius = 5;
   this.speed = 1;
   this.canvas = document.getElementById('simulation');
@@ -46,7 +46,7 @@ function areaChart() {
 
     //Plot Infected
     this.c.beginPath();
-    this.c.rect(this.time, this.canvas.height-(infectedCount / sim.totalCount)*this.canvas.height, 1, 120);
+    this.c.rect(this.time, this.canvas.height-(infectedCount / sim.totalCount)*this.canvas.height, 1, this.canvas.height);
     this.c.fillStyle = colorList.infected;
     this.c.fill();
     this.c.globalAlpha = 1;
@@ -223,6 +223,13 @@ function restart() {
   init();
   chart1.c.clearRect(0,0,sim.canvas.width,sim.canvas.height);
   chart1.time = 0;
+  sim.canvas.previousElementSibling.style.display ="none";
+  document.getElementById("lockdownCheckbox").checked = false;
+  animate();
+}
+
+function addReplayModal(sim) {
+  sim.canvas.previousElementSibling.style.display ="flex";
 }
 
 function toggleLockdown() {
@@ -264,18 +271,15 @@ function init() {
         }
       }
     }
-
     circleList.push(tempCircle);
   }
-  radius = mathRandomInRange(5, 5);
-  x = mathRandomInRange(0+radius, sim.canvas.width-radius);
-  y = mathRandomInRange(0+radius, sim.canvas.height-radius);
-  dx = mathRandomInRangeFloat(-2, 2);
-  dy = mathRandomInRangeFloat(-2, 2);
-  isInfected = true;
-  circleList.push(new Circle(x,y,dx,dy,radius,isInfected));
+  circleList[0].isInfected = true;
+  circleList[0].infectionStart = Date.now();
+  circleList[0].color = colorList.infected;
   infectedCount +=1;
-  sim.totalCount += 1;
+  healthyCount -= 1;
+
+  sim.transmissionRatio = document.getElementById("transmissionRatio").value;
 
   circleList.forEach(circle => {
     circle.update(circleList);
@@ -285,19 +289,23 @@ function init() {
 }
 
 function animate() {
-  requestAnimationFrame(animate);
   sim.c.clearRect(0,0, sim.canvas.width, sim.canvas.height);
   circleList.forEach(val => {
     val.update(circleList);
   });
-  document.getElementById("healthy").innerHTML = `Healthy: ${healthyCount}`;
-  document.getElementById("infected").innerHTML = `Infected: ${infectedCount}`;
-  document.getElementById("removed").innerHTML = `Removed: ${removedCount}`;
+  document.getElementById("healthy").innerHTML = healthyCount;
+  document.getElementById("infected").innerHTML = infectedCount;
+  document.getElementById("removed").innerHTML = removedCount;
 
 
   chart1.update();
 
-
+  if (infectedCount > 0) {
+    requestAnimationFrame(animate);
+  }
+else {
+    addReplayModal(sim);
+  }
 }
 
 let sim = new Simulation();
