@@ -1,0 +1,34 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Canvas</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <div class="flex-row controls-top">
+      <div class="flex-row controls-top">
+    <h2>Ballpen</h2>
+    <p><a href="collision.html">Collision</a></p>
+    </div>
+    <span>
+      <label for="fname">Ball count:</label>
+      <input type="number" id="bcount" name="bcount" value="">
+      <button onclick="setBalls()">Set</button>
+    </span>
+    <div>
+      <label class="switch" onchange="toggleGravity()">
+        <input type="checkbox">
+        <span class="slider round"></span>
+      </label>
+      <button onclick="restart()">Restart</button>
+    </div>
+  </div>
+  <canvas></canvas>
+
+
+  <script src="js/gravity.js"></script>
+</body>
+</html>
