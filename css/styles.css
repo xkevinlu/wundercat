@@ -11,11 +11,25 @@
   position:absolute;
   top:0;
   left:0;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(255,255,255,0.8);
   z-index:2;
   display:none;
   justify-content:center;
   align-items:center;
+}
+
+button {
+  max-width:none;
+  cursor:pointer;
+}
+
+.overlay-button {
+  all:unset;
+  cursor:pointer;
+}
+
+.overlay-button:hover {
+  color: gray;
 }
 
 canvas.simulation {

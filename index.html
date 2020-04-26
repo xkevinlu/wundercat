@@ -3,7 +3,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Canvas</title>
+  <title>Visualizing an Epidemic</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -67,7 +68,10 @@
       <div class="flex-row justify-center">
         <div class="sim-container">
           <div class="sim-overlay">
-            <button class="overlay-button" onclick="sims[0].restart()">New Simulation </button>
+            <button class="overlay-button" onclick="sims[0].restart()">
+              <i class="fa fa-undo" aria-hidden="true"></i>
+              New Simulation
+            </button>
           </div>
           <canvas class="simulation" id="simulation0"></canvas>
         </div>
@@ -77,14 +81,16 @@
       <div class="flex-row justify-between">
         <div class="justify-end">
           <label class="controls" for="transmissionRatio">Infection chance (%):</label>
-          <input type="number" id="transmissionRatio" min="0" max="100" value="50">
+          <input class="input-box" type="number" id="transmissionRatio" min="0" max="100" value="50">
         </div>
         <div class="ustify-end">
           <label class="controls" for="infectionDurationEntry">Infection duration:</label>
-          <input type="number" id="infectionDurationEntry" min="0" max="10" value="10">
+          <input class="input-box" type="number" id="infectionDurationEntry" min="0" max="10" value="10">
         </div>
         <div class="justify-end">
-          <button onclick="sims[0].restart()">Run</button>
+          <button onclick="sims[0].restart()">
+          <i class="fa fa-undo" aria-hidden="true"></i>
+        </button>
         </div>
       </div>
 
@@ -120,25 +126,30 @@
         <div class="flex-row justify-center">
           <div class="sim-container">
             <div class="sim-overlay">
-              <button class="overlay-button" onclick="sims[1].restart()">New Simulation </button>
+              <button class="overlay-button" onclick="sims[1].restart()">
+                <i class="fa fa-undo" aria-hidden="true"></i>
+                New Simulation
+              </button>
             </div>
             <canvas class="simulation" id="simulation1"></canvas>
           </div>
         </div>
         <div class="flex-row justify-between">
-        <div class="switch-group flex-row">
-          <label class="controls switch">
-            <input type="checkbox" id="lockdownCheckbox" onclick="sims[1].toggleLockdown()">
-            <span class="slider round"></span>
-          </label>
-          <label>Lockdown</label>
+          <div class="justify-end">
+            <label class="controls" for="obeyingLockdown">% Obeying Lockdown:</label>
+            <input class="input-box" type="number" id="obeyingLockdown" min="0" max="100" value="90">
+          </div>
+          <div class="switch-group flex-row">
+            <label class="controls switch">
+              <input type="checkbox" id="lockdownCheckbox" onclick="sims[1].toggleLockdown()">
+              <span class="slider round"></span>
+            </label>
+            <label>Lockdown</label>
+          </div>
+          <button onclick="sims[1].restart()">
+            <i class="fa fa-undo" aria-hidden="true"></i>
+          </button>
         </div>
-        <div class="justify-end">
-          <label class="controls" for="lockdownFactor">% Obeying Lockdown:</label>
-          <input type="number" id="lockdownFactor" min="0" max="100" value="100">
-        </div>
-        <button onclick="sims[1].restart()">Restart</button>
-      </div>
 
 
         <p>

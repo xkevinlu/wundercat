@@ -5,7 +5,8 @@ function Simulation(canvas, id) {
   this.isLockdown = false;
   this.infectionDuration = 6000;
   this.transmissionRatio = 0.30;
-  this.lockdownFactor = 0.1;
+  this.lockdownFactor = 0.05;
+  this.obeyingLockdown = 0.9;
   this.totalCount = 250;
   this.radius = 5;
   this.speed = 1;
@@ -51,12 +52,14 @@ function Simulation(canvas, id) {
       }
       this.circleList.push(tempCircle);
     }
-    this.circleList[0].isInfected = true;
-    this.circleList[0].infectionStart = Date.now();
-    this.circleList[0].color = colorList.infected;
-    this.infectedCount +=1;
-    this.healthyCount -= 1;
-
+    //Set seed number of infected
+    for (let i = 0; i < 2; i++) {
+      this.circleList[i].isInfected = true;
+      this.circleList[i].infectionStart = Date.now();
+      this.circleList[i].color = colorList.infected;
+      this.infectedCount +=1;
+      this.healthyCount -= 1;
+    }
 
     this.circleList.forEach(circle => {
       circle.update(this.circleList);
@@ -86,23 +89,35 @@ function Simulation(canvas, id) {
   this.toggleLockdown = () => {
     var checkBox = document.getElementById("lockdownCheckbox");
     this.isLockdown = checkBox.checked ? true : false;
+    this.obeyingLockdown = document.getElementById("obeyingLockdown").value/100;
     this.circleList.forEach( element => {
 
       if (this.isLockdown) {
-        element.velocity.x = element.velocity.x*this.lockdownFactor;
-        element.velocity.y = element.velocity.y*this.lockdownFactor;
+        if (Math.random() <= this.obeyingLockdown) {
+          element.velocity.x = element.velocity.x*this.lockdownFactor;
+          element.velocity.y = element.velocity.y*this.lockdownFactor;
+          element.lockedDown = true;
+        }
       } else {
         element.velocity.x = mathRandomInRangeFloat(-this.speed,this.speed);
         element.velocity.y = mathRandomInRangeFloat(-this.speed,this.speed);
+        this.circleList.forEach(element => {
+          element.lockedDown = false;
+        })
       }
     })
 
   }
   this.restart = () => {
-    document.getElementById("lockdownCheckbox").checked = false;
+    if (this.id == 0) {
+      this.transmissionRatio = document.getElementById("transmissionRatio").value/100;
+      this.infectionDuration = document.getElementById("infectionDurationEntry").value*1000;
+    }
+
+    if (this.id == 1) {
+      document.getElementById("lockdownCheckbox").checked = false;
+    }
     this.canvas.previousElementSibling.style.display ="none";
-    this.transmissionRatio = document.getElementById("transmissionRatio").value/100;
-    this.infectionDuration = document.getElementById("infectionDurationEntry").value*1000;
     charts[this.id].c.clearRect(0,0,this.canvas.width,this.canvas.height);
     charts[this.id].time = 0;
     window.cancelAnimationFrame(this.animation);
@@ -178,6 +193,7 @@ function Circle(sim,x,y,dx,dy,radius,isInfected) {
   this.isRemoved = false;
   this.mass = 1;
   this.opacity = 1;
+  this.lockedDown = false;
 
 
   this.draw = () => {
@@ -295,11 +311,12 @@ function resolveCollision(particle, otherParticle) {
     const vFinal2 = rotate(v2, -angle);
 
     // Swap particle velocities for realistic bounce effect
-    particle.velocity.x = vFinal1.x;
-    particle.velocity.y = vFinal1.y;
 
-    otherParticle.velocity.x = vFinal2.x;
-    otherParticle.velocity.y = vFinal2.y;
+    particle.velocity.x = particle.lockedDown ? vFinal1.x*0.05 : vFinal1.x;
+    particle.velocity.y = particle.lockedDown ? vFinal1.y*0.05 : vFinal1.y;
+
+    otherParticle.velocity.x = otherParticle.lockedDown ? vFinal2.x*0.05 : vFinal2.x;
+    otherParticle.velocity.y = otherParticle.lockedDown ? vFinal2.x*0.05 : vFinal2.y;
   }
 }
 
@@ -316,11 +333,13 @@ function addReplayModal(sim) {
 }
 
 function checkScroll() {
-  console.log(window.scrollY);
-  if (window.scrollY > 800 && !sims[1].inView) {
-    sims[1].animate();
-    sims[1].inView = true;
-  }
+  sims.forEach(element => {
+    if (element.canvas.getBoundingClientRect().top < 400 && !element.inView) {
+      element.init();
+      element.animate();
+      element.inView = true;
+    }
+  })
 }
 
 const colorList = {
@@ -333,9 +352,9 @@ let charts = [];
 
 for (let i = 0; i < 2; i++) {
   sims[i] = new Simulation(document.getElementById(`simulation${i}`),i);
-  sims[i].init();
   charts[i] = new areaChart(sims[i], document.getElementById(`chart${i}`));
   charts[i].init();
 }
   sims[0].inView = true;
+  sims[0].init();
   sims[0].animate();

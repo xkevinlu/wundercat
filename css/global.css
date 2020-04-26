@@ -123,6 +123,7 @@ button {
   min-width:60px;
   max-width:100px;
 }
+
 /* Switch
 
 /* The switch - the box around the slider */
@@ -179,7 +180,7 @@ input:checked + .slider:before {
   transform: translateX(20px);
 }
 
-#transmissionRatio, #infectionDurationEntry {
+.input-box {
   width:50px;
   height:25px;
   background-color:#e7e7e7;
