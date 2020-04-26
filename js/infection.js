@@ -1,27 +1,119 @@
 // Variables
 
-function Simulation() {
+function Simulation(canvas, id) {
+  this.id = id;
   this.isLockdown = false;
-  this.infectionDuration = 5000;
-  this.transmissionRatio = 0.5;
+  this.infectionDuration = 6000;
+  this.transmissionRatio = 0.30;
   this.lockdownFactor = 0.1;
-  this.totalCount = 200;
+  this.totalCount = 250;
   this.radius = 5;
   this.speed = 1;
-  this.canvas = document.getElementById('simulation');
+  this.canvas = canvas;
   this.c = this.canvas.getContext('2d');
+  this.start = undefined;
+  this.duration = 40000;
+  this.circleList = [];
+  this.animation;
+  this.inView = false;
+
+  this.healthyCount;
+  this.infectedCount;
+  this.removedCount;
 
   this.init = () => {
-    resizeCanvasToDisplaySize(sim.canvas);
+    resizeCanvasToDisplaySize(this.canvas);
     document.getElementById("transmissionRatio").value = this.transmissionRatio*100;
+    document.getElementById("infectionDurationEntry").value = this.infectionDuration/1000;
+
+    this.circleList = [];
+    this.infectedCount = 0;
+    this.healthyCount = this.totalCount;
+    this.removedCount = 0;
+    this.start = Date.now();
+
+    for (let i = 0; i < this.totalCount; i++) {
+      var x = mathRandomInRange(0+this.radius, this.canvas.width-this.radius);
+      var y = mathRandomInRange(0+this.radius, this.canvas.height-this.radius);
+      var dx = mathRandomInRangeFloat(-this.speed,this.speed);
+      var dy = mathRandomInRangeFloat(-this.speed, this.speed);
+      var isInfected = false;
+      var tempCircle = new Circle(this,x,y,dx,dy,this.radius,isInfected);
+
+      if (i !== 0) {
+        for (let j = 0 ; j < this.circleList.length; j++) {
+          if (hasCollision(this.circleList[j], tempCircle)) {
+            tempCircle.x = mathRandomInRange(0+this.radius, this.canvas.width-this.radius);
+            tempCircle.y = mathRandomInRange(0+this.radius, this.canvas.height-this.radius);
+            j = -1;
+          }
+        }
+      }
+      this.circleList.push(tempCircle);
+    }
+    this.circleList[0].isInfected = true;
+    this.circleList[0].infectionStart = Date.now();
+    this.circleList[0].color = colorList.infected;
+    this.infectedCount +=1;
+    this.healthyCount -= 1;
+
+
+    this.circleList.forEach(circle => {
+      circle.update(this.circleList);
+    })
+
+
+  } //this.init
+  this.animate = () => {
+    this.c.clearRect(0,0, this.canvas.width, this.canvas.height);
+    this.circleList.forEach(circle => {
+      circle.update(this.circleList);
+    });
+    document.getElementById(`healthy${this.id}`).innerHTML = this.healthyCount;
+    document.getElementById(`infected${this.id}`).innerHTML = this.infectedCount;
+    document.getElementById(`removed${this.id}`).innerHTML = this.removedCount;
+
+
+    charts[this.id].update();
+
+    if (Date.now()-this.start < this.duration) {
+      this.animation = requestAnimationFrame(this.animate);
+    }
+    else {
+      addReplayModal(this);
+    }
   }
-  this.updateUI = () => {
-    document.getElementById("transmissionRatio").value = this.transmissionRatio*100;
+  this.toggleLockdown = () => {
+    var checkBox = document.getElementById("lockdownCheckbox");
+    this.isLockdown = checkBox.checked ? true : false;
+    this.circleList.forEach( element => {
+
+      if (this.isLockdown) {
+        element.velocity.x = element.velocity.x*this.lockdownFactor;
+        element.velocity.y = element.velocity.y*this.lockdownFactor;
+      } else {
+        element.velocity.x = mathRandomInRangeFloat(-this.speed,this.speed);
+        element.velocity.y = mathRandomInRangeFloat(-this.speed,this.speed);
+      }
+    })
+
+  }
+  this.restart = () => {
+    document.getElementById("lockdownCheckbox").checked = false;
+    this.canvas.previousElementSibling.style.display ="none";
+    this.transmissionRatio = document.getElementById("transmissionRatio").value/100;
+    this.infectionDuration = document.getElementById("infectionDurationEntry").value*1000;
+    charts[this.id].c.clearRect(0,0,this.canvas.width,this.canvas.height);
+    charts[this.id].time = 0;
+    window.cancelAnimationFrame(this.animation);
+    this.init();
+    this.animate();
   }
 }
 
-function areaChart() {
-  this.canvas = document.getElementById('status-chart');
+
+function areaChart(sim, chart) {
+  this.canvas = chart;
   this.c = this.canvas.getContext('2d');
   this.width = 300;
 
@@ -31,26 +123,26 @@ function areaChart() {
   this.update = () => {
 
     if (this.time < this.canvas.width) {
-    //Plot healthy
-    this.c.beginPath();
-    this.c.rect(this.time, 0, 1, healthyCount/sim.totalCount*this.canvas.height);
-    this.c.fillStyle = colorList.healthy;
-    this.c.fill();
+      //Plot healthy
+      this.c.beginPath();
+      this.c.rect(this.time, 0, 1, sim.healthyCount/sim.totalCount*this.canvas.height);
+      this.c.fillStyle = colorList.healthy;
+      this.c.fill();
 
-    //Plot Removed
-    this.c.beginPath();
-    this.c.rect(this.time, this.canvas.height-(removedCount / sim.totalCount)*this.canvas.height-(infectedCount / sim.totalCount)*this.canvas.height, 1, this.canvas.height*removedCount/sim.totalCount);
-    this.c.fillStyle = colorList.removed;
-    this.c.globalAlpha = 1;
-    this.c.fill();
+      //Plot Removed
+      this.c.beginPath();
+      this.c.rect(this.time, this.canvas.height-(sim.removedCount / sim.totalCount)*this.canvas.height-(sim.infectedCount / sim.totalCount)*this.canvas.height, 1, this.canvas.height*sim.removedCount/sim.totalCount);
+      this.c.fillStyle = colorList.removed;
+      this.c.globalAlpha = 1;
+      this.c.fill();
 
-    //Plot Infected
-    this.c.beginPath();
-    this.c.rect(this.time, this.canvas.height-(infectedCount / sim.totalCount)*this.canvas.height, 1, this.canvas.height);
-    this.c.fillStyle = colorList.infected;
-    this.c.fill();
-    this.c.globalAlpha = 1;
-    this.time += 0.2;
+      //Plot Infected
+      this.c.beginPath();
+      this.c.rect(this.time, this.canvas.height-(sim.infectedCount / sim.totalCount)*this.canvas.height, 1, this.canvas.height);
+      this.c.fillStyle = colorList.infected;
+      this.c.fill();
+      this.c.globalAlpha = 1;
+      this.time += this.width/60/(sim.duration/1000);
     }
   }
 }
@@ -70,15 +162,15 @@ function resizeCanvasToDisplaySize(canvas) {
   return false;
 }
 
-function Circle(x,y,dx,dy,radius,isInfected) {
+function Circle(sim,x,y,dx,dy,radius,isInfected) {
+  this.sim = sim;
+  this.radius = sim.radius;
   this.x = x;
   this.y = y;
   this.velocity = {
     x: dx,
     y: dy
   }
-  this.radius = sim.radius;
-  this.minRadius = sim.radius;
   this.isInfected = isInfected;
   this.isHealthy = !isInfected;
   this.color = this.isInfected ? colorList.infected : colorList.healthy;
@@ -95,7 +187,7 @@ function Circle(x,y,dx,dy,radius,isInfected) {
     sim.c.fillStyle = this.color;
     sim.c.fill();
   }
-  this.update = (circleList) => {
+  this.update = () => {
     // Basic movement
     this.x += this.velocity.x;
     this.y += this.velocity.y;
@@ -108,12 +200,12 @@ function Circle(x,y,dx,dy,radius,isInfected) {
       this.opacity = 0.5;
       this.isInfected = false;
       this.isRemoved = true;
-      infectedCount -= 1;
-      removedCount += 1;
+      sim.infectedCount -= 1;
+      sim.removedCount += 1;
     }
 
     //Ball Collision check
-    circleList.forEach(element => {
+    sim.circleList.forEach(element => {
       if (this != element) {
         if (hasCollision(this, element)) {
           if ( (this.isInfected && !element.isInfected) ||
@@ -131,8 +223,8 @@ function Circle(x,y,dx,dy,radius,isInfected) {
                 element.isHealthy = false;
                 element.infectionStart = Date.now();
 
-                healthyCount -= 1;
-                infectedCount += 1;
+                sim.healthyCount -= 1;
+                sim.infectedCount += 1;
               }
             }
           }
@@ -146,23 +238,6 @@ function Circle(x,y,dx,dy,radius,isInfected) {
 
 }
 
-function checkWallCollision(circle) {
-  if ((circle.x + circle.radius) > sim.canvas.width || (circle.x - circle.radius) < 0) {
-    circle.velocity.x = -circle.velocity.x;
-  }
-  if ((circle.y + circle.radius) > sim.canvas.height || (circle.y - circle.radius) < 0 ) {
-    circle.velocity.y = -circle.velocity.y;
-  }
-}
-
-function mathRandomInRange(min, max) {
-  return Math.floor(Math.random() * (max-min) + min);
-}
-
-function mathRandomInRangeFloat(min, max) {
-  return Math.random() * (max-min) + min;
-}
-
 function rotate(velocity, angle) {
   const rotatedVelocities = {
     x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
@@ -170,6 +245,15 @@ function rotate(velocity, angle) {
   };
 
   return rotatedVelocities;
+}
+
+function checkWallCollision(circle) {
+  if ((circle.x + circle.radius) > circle.sim.canvas.width || (circle.x - circle.radius) < 0) {
+    circle.velocity.x = -circle.velocity.x;
+  }
+  if ((circle.y + circle.radius) > circle.sim.canvas.height || (circle.y - circle.radius) < 0 ) {
+    circle.velocity.y = -circle.velocity.y;
+  }
 }
 
 function hasCollision(a, b) {
@@ -219,118 +303,39 @@ function resolveCollision(particle, otherParticle) {
   }
 }
 
-function restart() {
-  init();
-  chart1.c.clearRect(0,0,sim.canvas.width,sim.canvas.height);
-  chart1.time = 0;
-  sim.canvas.previousElementSibling.style.display ="none";
-  document.getElementById("lockdownCheckbox").checked = false;
-  animate();
+function mathRandomInRange(min, max) {
+  return Math.floor(Math.random() * (max-min) + min);
+}
+
+function mathRandomInRangeFloat(min, max) {
+  return Math.random() * (max-min) + min;
 }
 
 function addReplayModal(sim) {
   sim.canvas.previousElementSibling.style.display ="flex";
 }
 
-function toggleLockdown() {
-  var checkBox = document.getElementById("lockdownCheckbox");
-  isLockdown = checkBox.checked ? true : false;
-  circleList.forEach( element => {
-
-    if (isLockdown) {
-      element.velocity.x = element.velocity.x*lockdownFactor;
-      element.velocity.y = element.velocity.y*lockdownFactor;
-    } else {
-      element.velocity.x = mathRandomInRangeFloat(-sim.speed,sim.speed);
-      element.velocity.y = mathRandomInRangeFloat(-sim.speed,sim.speed);
-    }
-  })
-
-}
-
-
-function init() {
-  circleList = [];
-  infectedCount = 0;
-  healthyCount = sim.totalCount;
-  removedCount = 0;
-  for (let i = 0; i < sim.totalCount; i++) {
-    var x = mathRandomInRange(0+sim.radius, sim.canvas.width-sim.radius);
-    var y = mathRandomInRange(0+sim.radius, sim.canvas.height-sim.radius);
-    var dx = mathRandomInRangeFloat(-sim.speed,sim.speed);
-    var dy = mathRandomInRangeFloat(-sim.speed, sim.speed);
-    var isInfected = false;
-    var tempCircle = new Circle(x,y,dx,dy,sim.radius,isInfected);
-
-    if (i !== 0) {
-      for (let j = 0 ; j < circleList.length; j++) {
-        if (hasCollision(circleList[j], tempCircle)) {
-          tempCircle.x = mathRandomInRange(0+sim.radius, sim.canvas.width-sim.radius);
-          tempCircle.y = mathRandomInRange(0+sim.radius, sim.canvas.height-sim.radius);
-          j = -1;
-        }
-      }
-    }
-    circleList.push(tempCircle);
-  }
-  circleList[0].isInfected = true;
-  circleList[0].infectionStart = Date.now();
-  circleList[0].color = colorList.infected;
-  infectedCount +=1;
-  healthyCount -= 1;
-
-  sim.transmissionRatio = document.getElementById("transmissionRatio").value;
-
-  circleList.forEach(circle => {
-    circle.update(circleList);
-  })
-
-
-}
-
-function animate() {
-  sim.c.clearRect(0,0, sim.canvas.width, sim.canvas.height);
-  circleList.forEach(val => {
-    val.update(circleList);
-  });
-  document.getElementById("healthy").innerHTML = healthyCount;
-  document.getElementById("infected").innerHTML = infectedCount;
-  document.getElementById("removed").innerHTML = removedCount;
-
-
-  chart1.update();
-
-  if (infectedCount > 0) {
-    requestAnimationFrame(animate);
-  }
-else {
-    addReplayModal(sim);
+function checkScroll() {
+  console.log(window.scrollY);
+  if (window.scrollY > 800 && !sims[1].inView) {
+    sims[1].animate();
+    sims[1].inView = true;
   }
 }
-
-let sim = new Simulation();
-let chart1 = new areaChart();
-sim.init();
-chart1.init();
 
 const colorList = {
-  healthy: "#2143A7",
-  infected: "red",
+  healthy: "#63c2db",
+  infected: "#f66654",
   removed: "gray",
-  accent1:"#2143A7",
-  accent2:"#0061A7",
-  accent3:"#219CA7",
-  accent4:"#6EA500",
-  accent5:"#A7A721",
 };
-let circleList = [];
-let healthyCount = undefined;
-let infectedCount = undefined;
-let removedCount = undefined;
+let sims = [];
+let charts = [];
 
-//User Inputs
-let isLockdown = false;
-let lockdownFactor = 0.1;
-
-init();
-animate();
+for (let i = 0; i < 2; i++) {
+  sims[i] = new Simulation(document.getElementById(`simulation${i}`),i);
+  sims[i].init();
+  charts[i] = new areaChart(sims[i], document.getElementById(`chart${i}`));
+  charts[i].init();
+}
+  sims[0].inView = true;
+  sims[0].animate();

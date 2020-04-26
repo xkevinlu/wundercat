@@ -1,7 +1,8 @@
 :root {
-  --color-healthy: blue;
-  --color-infected: coral;
+  --color-healthy: #63c2db;
+  --color-infected: #f66654;
   --color-removed: gray;
+  --color-accent-1:#FFEEE2;
   --font-1: 'Libre Baskerville', serif;
 }
 
@@ -29,15 +30,16 @@ body {
 
 .author {
   color:#aaa;
-  font-size:13pt;
+  font-size:11pt;
   font-weight:400;
+  line-height:10px;
 }
 .navbar {
   display:flex;
   justify-content:space-between;
   align-items:center;
   height:50px;
-  background-color:#FFEEE2;
+  background-color:var(--color-accent-1);
 }
 
 .navbar ul {
@@ -92,8 +94,21 @@ a:link:visited {
   justify-content:center;
 }
 
+.justify-start {
+  justify-content:flex-start;
+}
+
+.justify-end {
+  justify-content:flex-end;
+}
+
 .controls-top {
   height:60px;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction:column;
 }
 
 .flex-row {
@@ -102,6 +117,12 @@ a:link:visited {
   padding-bottom:5px;
 }
 
+
+button {
+  height:35px;
+  min-width:60px;
+  max-width:100px;
+}
 /* Switch
 
 /* The switch - the box around the slider */
@@ -158,6 +179,14 @@ input:checked + .slider:before {
   transform: translateX(20px);
 }
 
+#transmissionRatio, #infectionDurationEntry {
+  width:50px;
+  height:25px;
+  background-color:#e7e7e7;
+  border:none;
+  border-bottom:1px solid gray;
+}
+
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
@@ -169,4 +198,7 @@ input:checked + .slider:before {
 
 label {
   font-size:0.8em;
+}
+p.small {
+  font-size:11px;
 }

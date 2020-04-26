@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body onscroll="checkScroll()">
   <div class="navbar">
     <div class="lockup">
       <div class="logo">
@@ -40,60 +40,111 @@
   </div>
   <div class="page-container">
     <h1 class="text-center">Visualizing an Epidemic</h1>
-    <h5 class="text-center author">by Kevin Lu, May 1, 2020</h6>
+    <h5 class="text-center author">May 1, 2020</h6>
 
-      <!--chart 1-->
+      <!--chart 0-->
       <div class="flex-row align-top justify-center">
         <div>
-          <canvas id="status-chart">
+          <canvas class="status-charts" id="chart0">
           </canvas>
         </div>
         <div class="legend-group">
           <div class="legend">
             <label class="label-name">Healthy</label>
-            <label class="label-value" id="healthy"></label>
+            <label class="label-value healthy" id="healthy0"></label>
           </div>
           <div class="legend">
             <label class="label-name">Infected</label>
-            <label class="label-value" id="infected"></label>
+            <label class="label-value infected" id="infected0"></label>
           </div>
           <div class="legend legend-last">
             <label class="label-name">Removed</label>
-            <label class="label-value" id="removed"></label>
+            <label class="label-value removed" id="removed0"></label>
           </div>
         </div>
       </div>
-      <!--sim 1-->
+      <!--sim 0-->
       <div class="flex-row justify-center">
         <div class="sim-container">
           <div class="sim-overlay">
-            <button class="overlay-button" onclick="restart()">New Simulation </button>
+            <button class="overlay-button" onclick="sims[0].restart()">New Simulation </button>
           </div>
-          <canvas id="simulation"></canvas>
+          <canvas class="simulation" id="simulation0"></canvas>
         </div>
       </div>
 
       <!--controls-->
       <div class="flex-row justify-between">
+        <div class="justify-end">
+          <label class="controls" for="transmissionRatio">Infection chance (%):</label>
+          <input type="number" id="transmissionRatio" min="0" max="100" value="50">
+        </div>
+        <div class="ustify-end">
+          <label class="controls" for="infectionDurationEntry">Infection duration:</label>
+          <input type="number" id="infectionDurationEntry" min="0" max="10" value="10">
+        </div>
+        <div class="justify-end">
+          <button onclick="sims[0].restart()">Run</button>
+        </div>
+      </div>
+
+      <section class="text 1">
+        <p class="small">Disclaimer: this is not a model of the COVID-19 pandemic, but rather a visualization for the concept of spreading epidemics.</p>
+        <p>
+          What happens when you introduce lockdown?
+        </p>
+
+
+        <!--chart 1-->
+        <div class="flex-row align-top justify-center">
+          <div>
+            <canvas class="status-charts" id="chart1">
+            </canvas>
+          </div>
+          <div class="legend-group">
+            <div class="legend">
+              <label class="label-name">Healthy</label>
+              <label class="label-value healthy" id="healthy1"></label>
+            </div>
+            <div class="legend">
+              <label class="label-name">Infected</label>
+              <label class="label-value infected" id="infected1"></label>
+            </div>
+            <div class="legend legend-last">
+              <label class="label-name">Removed</label>
+              <label class="label-value removed" id="removed1"></label>
+            </div>
+          </div>
+        </div>
+        <!--sim 1-->
+        <div class="flex-row justify-center">
+          <div class="sim-container">
+            <div class="sim-overlay">
+              <button class="overlay-button" onclick="sims[1].restart()">New Simulation </button>
+            </div>
+            <canvas class="simulation" id="simulation1"></canvas>
+          </div>
+        </div>
+        <div class="flex-row justify-between">
         <div class="switch-group flex-row">
           <label class="controls switch">
-            <input type="checkbox" id="lockdownCheckbox" onclick="toggleLockdown()">
+            <input type="checkbox" id="lockdownCheckbox" onclick="sims[1].toggleLockdown()">
             <span class="slider round"></span>
           </label>
           <label>Lockdown</label>
         </div>
-
-        <button onclick="restart()">Run</button>
+        <div class="justify-end">
+          <label class="controls" for="lockdownFactor">% Obeying Lockdown:</label>
+          <input type="number" id="lockdownFactor" min="0" max="100" value="100">
+        </div>
+        <button onclick="sims[1].restart()">Restart</button>
       </div>
-      <label class="controls" for="transmissionRatio">Infection chance (%):</label>
-      <input type="number" id="transmissionRatio" min="0" max="100">
-      <section class="text 1">
-        <p>Disclaimer: this is not a model of the COVID-19 pandemic, but rather a visualization for the concept of spreading epidemics.</p>
+
+
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at arcu fringilla, condimentum dolor et, mattis orci. Cras pellentesque vitae nibh at faucibus. Cras urna justo, lacinia a mollis vitae, placerat eget nisl. Ut vehicula, justo non semper vestibulum, odio metus tempus dolor, vitae blandit ante massa vel mi. Duis aliquet felis augue, at mattis purus vestibulum quis. Integer fringilla dapibus ex, et pellentesque lacus ultricies ut. Integer magna nibh, bibendum in pretium interdum, interdum in mi. Nam pellentesque risus egestas rhoncus dictum. Praesent nec leo quis massa lacinia bibendum ut id nulla. Mauris dui nulla, fringilla non dui egestas, gravida ultrices nisi.
-
           Duis tincidunt bibendum nisi, sit amet mattis tellus sagittis in. Maecenas a leo a enim gravida facilisis ac dictum lacus. Suspendisse tincidunt consequat dolor. Morbi in odio at enim molestie bibendum. Integer viverra urna ut velit mollis malesuada. Mauris varius enim diam, sit amet cursus sem finibus in. Aenean blandit dignissim justo, vitae aliquet lectus rhoncus quis.
-
+        </p>
+        <p>
           Cras accumsan varius mi, lobortis auctor nisl rhoncus in. Integer sit amet facilisis lorem, rhoncus sagittis orci. Praesent eget dui rhoncus, gravida erat ut, mattis dui. Sed aliquet accumsan justo ac pretium. Aliquam ut consectetur lorem. Donec tellus erat, pulvinar ac felis non, mattis pharetra lectus. Maecenas sit amet quam pretium, rutrum mi ac, ullamcorper dui. In vitae sagittis ante, et tristique augue. Ut auctor nunc id augue aliquam facilisis. Sed vitae ligula dapibus, finibus magna quis, efficitur tellus. Vivamus varius sapien felis, quis lacinia tortor iaculis in. Nam sagittis porta elementum. Vivamus sit amet suscipit velit. Pellentesque placerat pharetra faucibus. Praesent dignissim mi eu urna molestie commodo. Praesent ultrices vehicula odio sed feugiat.
         </p>
       </section>
