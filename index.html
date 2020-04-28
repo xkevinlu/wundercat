@@ -83,7 +83,7 @@
           <label class="controls" for="transmissionRatio">Infection chance (%):</label>
           <input class="input-box" type="number" id="transmissionRatio" min="0" max="100" value="50">
         </div>
-        <div class="ustify-end">
+        <div class="justify-end">
           <label class="controls" for="infectionDurationEntry">Infection duration:</label>
           <input class="input-box" type="number" id="infectionDurationEntry" min="0" max="10" value="10">
         </div>
@@ -96,6 +96,10 @@
 
       <section class="text 1">
         <p class="small">Disclaimer: this is not a model of the COVID-19 pandemic, but rather a visualization for the concept of spreading epidemics.</p>
+
+        <p>
+          Every person that is infected has a chance to infect other people they come in contact with. Adjust the chance and duration to see different results.
+        </p>
         <p>
           What happens when you introduce lockdown?
         </p>
@@ -151,15 +155,66 @@
           </button>
         </div>
 
-
         <p>
-          Duis tincidunt bibendum nisi, sit amet mattis tellus sagittis in. Maecenas a leo a enim gravida facilisis ac dictum lacus. Suspendisse tincidunt consequat dolor. Morbi in odio at enim molestie bibendum. Integer viverra urna ut velit mollis malesuada. Mauris varius enim diam, sit amet cursus sem finibus in. Aenean blandit dignissim justo, vitae aliquet lectus rhoncus quis.
+          Not everybody follows the lockdown order, but we can see the effects lockdown has on flattening the curve. Also, the earlier lockdown is implemented the greater the results.
+        </p>
+        <p>
+          Now what if you could impose travel restrictions?
         </p>
         <p>
           Cras accumsan varius mi, lobortis auctor nisl rhoncus in. Integer sit amet facilisis lorem, rhoncus sagittis orci. Praesent eget dui rhoncus, gravida erat ut, mattis dui. Sed aliquet accumsan justo ac pretium. Aliquam ut consectetur lorem. Donec tellus erat, pulvinar ac felis non, mattis pharetra lectus. Maecenas sit amet quam pretium, rutrum mi ac, ullamcorper dui. In vitae sagittis ante, et tristique augue. Ut auctor nunc id augue aliquam facilisis. Sed vitae ligula dapibus, finibus magna quis, efficitur tellus. Vivamus varius sapien felis, quis lacinia tortor iaculis in. Nam sagittis porta elementum. Vivamus sit amet suscipit velit. Pellentesque placerat pharetra faucibus. Praesent dignissim mi eu urna molestie commodo. Praesent ultrices vehicula odio sed feugiat.
         </p>
       </section>
-
+      <!--chart 2-->
+      <div class="flex-row align-top justify-center">
+        <div>
+          <canvas class="status-charts" id="chart2">
+          </canvas>
+        </div>
+        <div class="legend-group">
+          <div class="legend">
+            <label class="label-name">Healthy</label>
+            <label class="label-value healthy" id="healthy2"></label>
+          </div>
+          <div class="legend">
+            <label class="label-name">Infected</label>
+            <label class="label-value infected" id="infected2"></label>
+          </div>
+          <div class="legend legend-last">
+            <label class="label-name">Removed</label>
+            <label class="label-value removed" id="removed2"></label>
+          </div>
+        </div>
+      </div>
+      <!--sim 2-->
+      <div class="flex-row justify-center">
+        <div class="sim-container">
+          <div id="sim-travel-divider"></div>
+          <div class="sim-overlay">
+            <button class="overlay-button" onclick="sims[2].restart()">
+              <i class="fa fa-undo" aria-hidden="true"></i>
+              New Simulation
+            </button>
+          </div>
+          <canvas class="simulation" id="simulation2"></canvas>
+        </div>
+      </div>
+      <div class="flex-row justify-between">
+        <div class="justify-end">
+          <label class="controls" for="restrictionRate">% restricted:</label>
+          <input class="input-box" type="number" id="restrictionRate" min="0" max="100" value="90">
+        </div>
+        <div class="switch-group flex-row">
+          <label class="controls switch">
+            <input type="checkbox" id="restrictionCheckbox" onclick="sims[2].toggleRestriction()">
+            <span class="slider round"></span>
+          </label>
+          <label>Travel Restrictions</label>
+        </div>
+        <button onclick="sims[2].restart()">
+          <i class="fa fa-undo" aria-hidden="true"></i>
+        </button>
+      </div>
 
     </div> <!--page container-->
     <script src="js/infection.js"></script>
