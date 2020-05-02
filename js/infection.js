@@ -5,8 +5,8 @@ function Simulation(canvas, id) {
   this.isLockdown = false;
   this.isRestricted = false;
   this.restrictionRate = 1;
-  this.infectionDuration = 6000;
-  this.transmissionRatio = 0.30;
+  this.infectionDuration = 5000;
+  this.transmissionRatio = 0.50;
   this.lockdownFactor = 0.05;
   this.obeyingLockdown = 0.9;
   this.totalCount = 250;
@@ -110,7 +110,6 @@ function Simulation(canvas, id) {
     },
     this.toggleRestriction = () => {
       this.isRestricted = document.getElementById('restrictionCheckbox').checked ? true : false;
-      this.restrictionRate = document.getElementById('restrictionRate').value / 100;
       let divider = document.getElementById("sim-travel-divider");
       divider.style.display = (divider.style.display === "") ? "block" : "";
       this.circleList.forEach( element => {
@@ -120,7 +119,7 @@ function Simulation(canvas, id) {
       })
     },
     this.restart = () => {
-      if (this.id === 0) {
+      if (this.id === 3) {
         this.transmissionRatio = document.getElementById('transmissionRatio').value / 100;
         this.infectionDuration = document.getElementById('infectionDurationEntry').value * 1000;
       }
@@ -375,7 +374,7 @@ const colorList = {
 const sims = [];
 const charts = [];
 
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < 4; i++) {
   sims[i] = new Simulation(document.getElementById(`simulation${i}`), i);
   charts[i] = new areaChart(sims[i], document.getElementById(`chart${i}`));
   charts[i].init();
@@ -383,3 +382,5 @@ for (let i = 0; i < 3; i++) {
 sims[0].inView = true;
 sims[0].init();
 sims[0].animate();
+
+sims[3].transmissionRatio = 0.25;

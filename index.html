@@ -77,34 +77,80 @@
         </div>
       </div>
 
-      <!--controls-->
-      <div class="flex-row justify-between">
-        <div class="justify-end">
-          <label class="controls" for="transmissionRatio">Infection chance (%):</label>
-          <input class="input-box" type="number" id="transmissionRatio" min="0" max="100" value="50">
-        </div>
-        <div class="justify-end">
-          <label class="controls" for="infectionDurationEntry">Infection duration:</label>
-          <input class="input-box" type="number" id="infectionDurationEntry" min="0" max="10" value="10">
-        </div>
-        <div class="justify-end">
-          <button onclick="sims[0].restart()">
-          <i class="fa fa-undo" aria-hidden="true"></i>
-        </button>
-        </div>
-      </div>
-
       <section class="text 1">
-        <p class="small">Disclaimer: this is not a model of the COVID-19 pandemic, but rather a visualization for the concept of spreading epidemics.</p>
+        <p class="small">Disclaimer: This is not a model of the coronavirus, but rather a visualization to develop an intuition for the exponential nature of epidemic spread.</p>
 
         <p>
-          Every person that is infected has a chance to infect other people they come in contact with. Adjust the chance and duration to see different results.
+          As of the end of April, there are now 3.25 million coronavirus cases in the world, with over a million of those cases in the United States alone. Just two months ago, reported cases in the US were virtually non-existent, with less than 50 reported cases in the US. To get a better intuitive understanding of how such exponential growth occurs, it can be helpful to visualize a simplified model of how epidemics spread.
+        </p>
+        <iframe src="https://public.domo.com/cards/dwoBJ" width="100%" height="600" marginheight="0" marginwidth="0" frameborder="0"></iframe>
+        <p>
+To begin, imagine we have a town of 250 healthy people, and one person becomes infected with a contagious disease. We must make some assumptions about how our disease spreads.  For the sake of simplicity, let’s assume that there are three states for individuals -- healthy (susceptible), infectious, and removed (recovered or deceased). We will also assume that the disease has a chance of spread through close human to human proximity or contact, and that an infected individual will after a period of time will no longer be infectious by recovering or dying, removing them from the pool of infectious individuals. Finally we will assume that recovery confers a lasting resistance, so that they cannot become infected again, such as in the case of measles, mumps, and rubella. While these assumptions are far too simplistic to make for a real model, it should be sufficient for our goal of developing an intuition for spread.
         </p>
         <p>
-          What happens when you introduce lockdown?
+          In the example above, we started with a default infection chance of 50%, and a duration of 6 seconds. Let's see what happens if we cut the infection chance in half to 25%:
         </p>
 
+        <!-- Chart 3 -->
+        <div class="flex-row align-top justify-center">
+          <div>
+            <canvas class="status-charts" id="chart3">
+            </canvas>
+          </div>
+          <div class="legend-group">
+            <div class="legend">
+              <label class="label-name">Healthy</label>
+              <label class="label-value healthy" id="healthy3"></label>
+            </div>
+            <div class="legend">
+              <label class="label-name">Infected</label>
+              <label class="label-value infected" id="infected3"></label>
+            </div>
+            <div class="legend legend-last">
+              <label class="label-name">Removed</label>
+              <label class="label-value removed" id="removed3"></label>
+            </div>
+          </div>
+        </div>
+        <!--sim 3-->
+        <div class="flex-row justify-center">
+          <div class="sim-container">
+            <div class="sim-overlay">
+              <button class="overlay-button" onclick="sims[3].restart()">
+                <i class="fa fa-undo" aria-hidden="true"></i>
+                New Simulation
+              </button>
+            </div>
+            <canvas class="simulation" id="simulation3"></canvas>
+          </div>
+        </div>
 
+        <!--controls-->
+        <div class="flex-row justify-between">
+          <div class="justify-end">
+            <label class="controls" for="transmissionRatio">Infection chance (%):</label>
+            <input class="input-box" type="number" id="transmissionRatio" min="0" max="100" value="50">
+          </div>
+          <div class="justify-end">
+            <label class="controls" for="infectionDurationEntry">Infection duration:</label>
+            <input class="input-box" type="number" id="infectionDurationEntry" min="0" max="10" value="10">
+          </div>
+          <div class="justify-end">
+            <button onclick="sims[3].restart()">
+            <i class="fa fa-undo" aria-hidden="true"></i>
+          </button>
+          </div>
+        </div>
+        <p>
+          The first key insight we begin to see is that the speed of infection and amount of people infected are highly sensitive to both the duration and infection chance. We can think of this as diseases that have longer durations like the coronavirus spread much faster, whereas diseases with shorter durations like ebola (while having a high mortality rate) spread much slower. For infection chance, this can be thought of as a proxy for better hygiene, wearing of face masks, and overall caution.
+        </p>
+
+        <p>
+          What about social distancing and lockdown? Since one of our conditions of spread is human to human proximity or contact, let’s visualize what happens when we ask people to stay at home. If 100% of the population stops moving, the infection dies fairly quickly and isn’t able to spread, but presumably not everybody can simply stop all movement -- there are still essential workers, grocery trips, and other reasons why people won’t follow the lockdown order.
+        </p>
+        <p>
+          Try issuing the order to stay at home at various stages of the spread, and adjusting the percentage of people who are staying at home.
+        </p>
         <!--chart 1-->
         <div class="flex-row align-top justify-center">
           <div>
@@ -156,13 +202,10 @@
         </div>
 
         <p>
-          Not everybody follows the lockdown order, but we can see the effects lockdown has on flattening the curve. Also, the earlier lockdown is implemented the greater the results.
+          We can see that the earlier we issue the lockdown, the less spread there is. Also, lifting the lockdown too soon can cause a resurgence of cases, if the spread of infection is unmitigated.
         </p>
         <p>
-          Now what if you could impose travel restrictions?
-        </p>
-        <p>
-          Cras accumsan varius mi, lobortis auctor nisl rhoncus in. Integer sit amet facilisis lorem, rhoncus sagittis orci. Praesent eget dui rhoncus, gravida erat ut, mattis dui. Sed aliquet accumsan justo ac pretium. Aliquam ut consectetur lorem. Donec tellus erat, pulvinar ac felis non, mattis pharetra lectus. Maecenas sit amet quam pretium, rutrum mi ac, ullamcorper dui. In vitae sagittis ante, et tristique augue. Ut auctor nunc id augue aliquam facilisis. Sed vitae ligula dapibus, finibus magna quis, efficitur tellus. Vivamus varius sapien felis, quis lacinia tortor iaculis in. Nam sagittis porta elementum. Vivamus sit amet suscipit velit. Pellentesque placerat pharetra faucibus. Praesent dignissim mi eu urna molestie commodo. Praesent ultrices vehicula odio sed feugiat.
+          Let’s also explore what happens when you issue a forced quarantine or travel restriction. Again for simplicity, we will proxy for this by introducing a simple divider that splits our population in half when we issue this restriction.
         </p>
       </section>
       <!--chart 2-->
@@ -200,10 +243,6 @@
         </div>
       </div>
       <div class="flex-row justify-between">
-        <div class="justify-end">
-          <label class="controls" for="restrictionRate">% restricted:</label>
-          <input class="input-box" type="number" id="restrictionRate" min="0" max="100" value="90">
-        </div>
         <div class="switch-group flex-row">
           <label class="controls switch">
             <input type="checkbox" id="restrictionCheckbox" onclick="sims[2].toggleRestriction()">
@@ -214,6 +253,36 @@
         <button onclick="sims[2].restart()">
           <i class="fa fa-undo" aria-hidden="true"></i>
         </button>
+
+      </div>
+      <p>
+        This post was inspired by <a href="https://www.washingtonpost.com/graphics/2020/world/corona-simulator/">this article by Harry Stevens</a> and <a href="https://www.youtube.com/watch?v=gxAaO2rsdIs">this video by 3Blue1Brown.</a>
+      </p>
+      <div class="post-footer">
+      <hr>
+        <!-- Begin Mailchimp Signup Form -->
+<div id="mc_embed_signup">
+<form action="https://gmail.us8.list-manage.com/subscribe/post?u=3cbefd8a2dbedaff8d299f6fb&amp;id=6a6039bbeb" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+  <h2>Subscribe to email list</h2>
+<div class="mc-field-group">
+  <p>
+    To get notified for my future posts, sign up for my email list and I'll send you the new posts right when they come out.
+  </p>
+  <label for="mce-EMAIL">Email Address
+</label>
+  <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+</div>
+  <div id="mce-responses" class="clear">
+    <div class="response" id="mce-error-response" style="display:none"></div>
+    <div class="response" id="mce-success-response" style="display:none"></div>
+  </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_3cbefd8a2dbedaff8d299f6fb_6a6039bbeb" tabindex="-1" value=""></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </div>
+</form>
+</div>
+<!--End mc_embed_signup-->
       </div>
 
     </div> <!--page container-->

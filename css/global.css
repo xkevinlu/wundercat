@@ -74,6 +74,10 @@ a:link:visited {
   /* border:1px solid black; */
 }
 
+hr {
+  margin:50px 0px;
+  opacity:0.5;
+}
 .lockup {
   padding:5px;
   display:flex;
