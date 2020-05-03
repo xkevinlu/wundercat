@@ -21,7 +21,7 @@ export default function Circle(sim, x, y, dx, dy, radius, isInfected) {
     this.isInfected = isInfected;
     this.isHealthy = !isInfected;
     this.color = this.isInfected ? colorList.infected : colorList.healthy;
-    this.infectionStart = this.isInfected ? Date.now() : undefined;
+    this.infectionFrame = 0;
     this.isRemoved = false;
     this.mass = 1;
     this.opacity = 1;
@@ -106,11 +106,12 @@ export default function Circle(sim, x, y, dx, dy, radius, isInfected) {
         // Basic movement
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+        this.infectionFrame = this.isInfected ? this.infectionFrame + 1 : this.infectionFrame;
         // Wall Collision
         this.checkWallCollision();
     
         // Develop immunity or die
-        if (this.isInfected && (Date.now() - this.infectionStart) > sim.infectionDuration) {
+        if (this.isInfected && this.infectionFrame > sim.infectionDuration) {
           this.color = colorList.removed;
           this.opacity = 0.5;
           this.isInfected = false;
@@ -130,12 +131,12 @@ export default function Circle(sim, x, y, dx, dy, radius, isInfected) {
                     this.color = colorList.infected;
                     this.isInfected = true;
                     this.isHealthy = false;
-                    this.infectionStart = Date.now();
+                    this.infectionFrame += 1;
     
                     element.color = colorList.infected;
                     element.isInfected = true;
                     element.isHealthy = false;
-                    element.infectionStart = Date.now();
+                    element.infectionFrame += 1;
     
                     sim.healthyCount -= 1;
                     sim.infectedCount += 1;

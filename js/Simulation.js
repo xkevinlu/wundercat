@@ -9,7 +9,7 @@ export default function Simulation(canvas, id) {
     this.isLockdown = false;
     this.isRestricted = false;
     this.restrictionRate = 1;
-    this.infectionDuration = 5000;
+    this.infectionDuration = 480; //in Number of frames
     this.transmissionRatio = 0.50;
     this.lockdownFactor = 0.05;
     this.obeyingLockdown = 0.9;
@@ -19,7 +19,7 @@ export default function Simulation(canvas, id) {
     this.radius = undefined;
     this.c = this.canvas.getContext('2d');
     this.start = undefined;
-    this.duration = 40000;
+    this.duration = 300;
     this.circleList = [];
     this.animation;
     this.inView = false;

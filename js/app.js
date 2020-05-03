@@ -19,7 +19,7 @@ sims[1].transmissionRatio = 0.25;
 
 window.onscroll = () => {
   sims.forEach((element) => {
-    if (element.canvas.getBoundingClientRect().top < 400 && !element.inView) {
+    if (element.canvas.getBoundingClientRect().top < 500 && !element.inView) {
       element.init();
       element.animate();
       element.inView = true;
