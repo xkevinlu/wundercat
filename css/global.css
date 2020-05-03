@@ -24,6 +24,15 @@ body {
   align-items:flex-start;
 }
 
+.align-center {
+  align-items:center;
+}
+
+.align-bottom {
+  align-items:flex-end;
+}
+
+
 .text-center {
   text-align:center;
 }
@@ -217,9 +226,6 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-label {
-  font-size:0.8em;
-}
 p.small {
   font-size:11px;
 }
@@ -246,4 +252,14 @@ p.small {
   height:35px;
   background-color: black;
   color:white;
+}
+
+@media only screen and (max-device-width: 480px) {
+  p {
+    font-size:1em;
+  }
+  .page-container {
+    margin:32px;
+    max-width:none;
+  }
 }

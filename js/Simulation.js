@@ -14,9 +14,9 @@ export default function Simulation(canvas, id) {
     this.lockdownFactor = 0.05;
     this.obeyingLockdown = 0.9;
     this.totalCount = 250;
-    this.radius = 5;
     this.speed = 1;
     this.canvas = canvas;
+    this.radius = undefined;
     this.c = this.canvas.getContext('2d');
     this.start = undefined;
     this.duration = 40000;
@@ -30,6 +30,7 @@ export default function Simulation(canvas, id) {
   
     this.init = () => {
         this.resizeCanvasToDisplaySize();
+        this.radius = this.canvas.width/100;
         document.querySelectorAll('.replay-button')[this.id].onclick = this.replay;
         document.getElementById(`replay${this.id}`).onclick = this.replay;
         document.getElementById('lockdownCheckbox').onclick = this.toggleLockdown;
