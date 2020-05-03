@@ -130,4 +130,10 @@
   .legend {
     font-size:1.6em;
   }
+
+  .replay-button {
+    height:44px;
+    width:44px;
+    font-size:1.2em;
+  }
 }

@@ -29,7 +29,7 @@ export default function Areachart(sim, chart) {
         this.c.fillStyle = colorList.infected;
         this.c.fill();
         this.c.globalAlpha = 1;
-        this.time += this.width / 60 / (sim.duration / 1000);
+        this.time += this.width / sim.duration;
       }
     };
   }

@@ -18,8 +18,8 @@ export default function Simulation(canvas, id) {
     this.canvas = canvas;
     this.radius = undefined;
     this.c = this.canvas.getContext('2d');
-    this.start = undefined;
-    this.duration = 300;
+    this.frameCount = 0;
+    this.duration = 2400;
     this.circleList = [];
     this.animation;
     this.inView = false;
@@ -43,7 +43,6 @@ export default function Simulation(canvas, id) {
         this.infectedCount = 0;
         this.healthyCount = this.totalCount;
         this.removedCount = 0;
-        this.start = Date.now();
     
         for (let i = 0; i < this.totalCount; i++) {
             const x = utils.mathRandomInRange(0 + this.radius, this.canvas.width - this.radius);
@@ -83,6 +82,7 @@ export default function Simulation(canvas, id) {
     this.animate = () => {
       // Refresh canvas  
       this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.frameCount += 1;
       //Update chart and sim
       charts[this.id].update();
       this.circleList.forEach((circle) => {
@@ -94,10 +94,10 @@ export default function Simulation(canvas, id) {
       document.getElementById(`infected${this.id}`).innerHTML = this.infectedCount;
       document.getElementById(`removed${this.id}`).innerHTML = this.removedCount;
   
-      //Check duration of animation
-      if (Date.now() - this.start < this.duration) {
+      //Check duration of animation and only play if in view
+      if (this.frameCount < this.duration && this.inView) {
         this.animation = requestAnimationFrame(this.animate);
-      } else {
+      } else if (this.frameCount > this.duration) {
         this.canvas.previousElementSibling.style.display = 'flex';
       }
     };
