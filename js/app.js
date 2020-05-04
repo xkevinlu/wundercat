@@ -1,4 +1,3 @@
-// Variables
 import Simulation from './Simulation';
 import Areachart from './Areachart';
 
@@ -20,13 +19,14 @@ sims[1].transmissionRatio = 0.25;
 
 window.onscroll = () => {
   sims.forEach((element) => {
-    if (element.canvas.getBoundingClientRect().top < 500 &&
+    if (element.canvas.getBoundingClientRect().top < window.innerHeight &&
         element.canvas.getBoundingClientRect().bottom > 50 &&
         !element.inView) {
       element.inView = true;
       element.animate();
     } else if (
-      element.canvas.getBoundingClientRect().bottom < 50 &&
+      ( element.canvas.getBoundingClientRect().bottom < 50 ||
+      element.canvas.getBoundingClientRect().bottom > window.innerHeight) &&
       element.inView
       ) {
       element.inView = false;

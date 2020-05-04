@@ -97,7 +97,8 @@ export default function Simulation(canvas, id) {
       //Check duration of animation and only play if in view
       if (this.frameCount < this.duration && this.inView) {
         this.animation = requestAnimationFrame(this.animate);
-      } else if (this.frameCount > this.duration) {
+      } 
+      if (this.frameCount > this.duration) {
         this.canvas.previousElementSibling.style.display = 'flex';
       }
     };

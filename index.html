@@ -73,7 +73,7 @@
           <canvas class="simulation" id="simulation0"></canvas>
         </div>
       <!--controls-->
-      <div class="flex-row justify-between">
+      <div class="sim-controls">
         <div>
         <p class="sim-caption">Toy model for visualization purposes only, not an actual model for coronavirus.</p>
         <p class="sim-caption">Infection chance: 50%, n = 250, duration: 5s</p>
@@ -127,7 +127,7 @@ To begin, imagine we have a town of 250 healthy people, and one person becomes i
           </div>
 
         <!--controls-->
-        <div class="flex-row justify-between">
+        <div class="sim-controls">
           <div class="justify-end">
             <label class="controls" for="transmissionRatio">Infection chance (%):</label>
             <input class="input-box" type="number" id="transmissionRatio" min="0" max="100" value="50">
@@ -181,7 +181,9 @@ To begin, imagine we have a town of 250 healthy people, and one person becomes i
             </div>
             <canvas class="simulation" id="simulation2"></canvas>
           </div>
-        <div class="flex-row justify-between">
+
+          <!--controls-->
+          <div class="sim-controls">
           <div class="switch-group flex-row">
             <label class="controls switch">
               <input type="checkbox" id="lockdownCheckbox">
@@ -235,7 +237,8 @@ To begin, imagine we have a town of 250 healthy people, and one person becomes i
           </div>
           <canvas class="simulation" id="simulation3"></canvas>
         </div>
-      <div class="flex-row justify-between">
+        <!-- controls -->
+        <div class="sim-controls">
         <div class="switch-group flex-row">
           <label class="controls switch">
             <input type="checkbox" id="restrictionCheckbox">
