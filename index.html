@@ -130,7 +130,7 @@ To begin, imagine we have a town of 250 healthy people, and one person becomes i
         <div class="sim-controls">
           <div class="justify-end">
             <label class="controls" for="transmissionRatio">Infection chance (%):</label>
-            <input class="input-box" type="number" id="transmissionRatio" min="0" max="100" value="50">
+            <input class="input-box" type="number" id="transmissionRatio" min="0" max="100">
           </div>
           <div class="justify-end">
             <label class="controls" for="infectionDurationEntry">Infection duration:</label>
@@ -192,8 +192,8 @@ To begin, imagine we have a town of 250 healthy people, and one person becomes i
             <label>Shelter in place</label>
           </div>
           <div class="justify-end">
-            <label class="controls" for="obeyingLockdown">Cooperation %:</label>
-            <input class="input-box" type="number" id="obeyingLockdown" min="0" max="100" value="90">
+            <label class="controls" for="lockdownRatio">Cooperation %:</label>
+            <input class="input-box" type="number" id="lockdownRatio" min="0" max="100">
           </div>
           <button class="replay-button" id="replay-button2">
             <i class="fa fa-undo" aria-hidden="true"></i>
@@ -265,7 +265,7 @@ To begin, imagine we have a town of 250 healthy people, and one person becomes i
   <p>
     If you're interested in reading my thoughts periodically, sign up for my email list.
   </p>
-  <label for="mce-EMAIL">Email Address
+  <label for="mce-EMAIL" class="mc-input-label">Email Address
 </label>
   <input type="email" value="" name="EMAIL" class="mc-input" id="mce-EMAIL">
 </div>

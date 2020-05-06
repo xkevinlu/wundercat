@@ -12,10 +12,7 @@ for (let i = 0; i < 4; i++) {
 }
 
 sims[0].inView = true;
-sims[0].init();
 sims[0].animate();
-
-sims[1].transmissionRatio = 0.25;
 
 window.onscroll = () => {
   sims.forEach((element) => {

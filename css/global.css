@@ -265,21 +265,28 @@ p.small {
   }
   .mc-input {
     height:60px;
-    width:100%;
+    width:100%; 
+    border:1px solid gray;
+    font-size:2em;
   
   }
+
+  .mc-input-label {
+    font-size:1.6em;
+  }
+
   
   .mc-subscribe {
     margin-top:15px;
     width:100%;
-    height:60px;
+    height:80px;
     padding:0 12px;
     background-color:#FFFFFF;
     border:2px solid black;
     font-weight:700;
     cursor:pointer;
     transition:all 0.3s;
-    font-size:1.6em;
+    font-size:2em;
   
   }
   
