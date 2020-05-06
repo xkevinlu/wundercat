@@ -8,6 +8,8 @@ export default function Circle(c, x, y, dx, dy, radius) {
   this.velocity = {
     x: dx,
     y: dy,
+    x_init: dx,
+    y_init: dy
   };
   this.lockedDown = false;
   this.isInfected = false;
@@ -34,8 +36,8 @@ export default function Circle(c, x, y, dx, dy, radius) {
     this.draw();
   };
 
-  this.modifyVelocity = (modifier) => {
-    this.velocity.x *= modifier;
-    this.velocity.y *= modifier;
+  this.restoreInitVelocity = () => {
+    this.velocity.x = this.velocity.x_init;
+    this.velocity.y = this.velocity.y_init;
   }
 }

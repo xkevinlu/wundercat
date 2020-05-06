@@ -15,7 +15,7 @@ export default function Simulation(canvas, id) {
 
   this.duration = 2400;
   this.speed = 1;
-  this.radius = this.canvas.width / 30;
+  this.radius = 5;
   this.totalCount = 250;
 
   this.isLockdown = false;
@@ -24,7 +24,7 @@ export default function Simulation(canvas, id) {
   this.restrictionRate = 1;
 
   this.infectionDuration = 480; //in Number of frames
-  this.transmissionRatio = (this.id === 2) ? 0.25 : 0.5;
+  this.transmissionRatio = 0.5;
 
   this.healthyCount = this.totalCount;
   this.infectedCount = 0;
@@ -32,24 +32,26 @@ export default function Simulation(canvas, id) {
 
 
   this.init = () => {
+    utils.resizeCanvasToDisplaySize(this.canvas);
+    this.radius = this.canvas.width > 700 ? 8 : 5;
     this.circleList = []
     this.healthyCount = this.totalCount;
     this.infectedCount = 0;
     this.removedCount = 0;
     this.frameCount = 0;
-    utils.resizeCanvasToDisplaySize(this.canvas);
     document.querySelectorAll('.replay-button')[this.id].onclick = this.replay;
     document.getElementById(`replay${this.id}`).onclick = this.replay;
-    document.getElementById('restrictionCheckbox').onclick = this.toggleRestriction;
 
     if (this.id === 1) {
       const inputTR = document.getElementById('transmissionRatio');
+      this.transmissionRatio = 0.25;
       inputTR.value = this.transmissionRatio * 100;
       inputTR.onchange = () => {
         this.transmissionRatio = inputTR.value / 100;
       }
 
       const inputDuration = document.getElementById('infectionDurationEntry');
+      this.infectionDuration = 360;
       inputDuration.value = this.infectionDuration / 60;
       inputDuration.onchange = () => {
         this.infectionDuration = inputDuration.value * 60;
@@ -69,6 +71,7 @@ export default function Simulation(canvas, id) {
     }
 
     if (this.id === 3) {
+      document.getElementById('restrictionCheckbox').onclick = this.toggleRestriction;
       this.isRestricted = document.getElementById('restrictionCheckbox').checked;
     }
     //Initialize circles
@@ -114,7 +117,6 @@ export default function Simulation(canvas, id) {
     this.circleList.forEach((a) => {
       a.update();
     });
-
   }; // this.init
 
   this.animate = () => {
@@ -185,6 +187,7 @@ export default function Simulation(canvas, id) {
       this.circleList.forEach((a) => {
         if (a.lockedDown) {
           a.lockedDown = false;
+          a.restoreInitVelocity();
         }
       })
 
