@@ -13,8 +13,8 @@ export default function Simulation(canvas, id) {
   this.animation;
   this.inView = false;
 
-  this.duration = 2400;
-  this.speed = 1;
+  this.duration = 1800;
+  this.speed = 1.5;
   this.radius = 5;
   this.totalCount = 250;
 
@@ -51,7 +51,6 @@ export default function Simulation(canvas, id) {
       }
 
       const inputDuration = document.getElementById('infectionDurationEntry');
-      this.infectionDuration = 360;
       inputDuration.value = this.infectionDuration / 60;
       inputDuration.onchange = () => {
         this.infectionDuration = inputDuration.value * 60;

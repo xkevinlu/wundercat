@@ -21,6 +21,13 @@ body {
   padding:0;
 }
 
+.section-text {
+  padding:16px 0;
+}
+p {
+  padding:8px 0 16px 0;
+  line-height:2;
+}
 .align-top {
   align-items:flex-start;
 }
@@ -272,7 +279,7 @@ p.small {
   }
 
   .mc-input-label {
-    font-size:1.6em;
+    font-size:1.8em;
   }
 
   
