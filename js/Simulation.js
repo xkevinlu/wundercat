@@ -33,6 +33,7 @@ export default function Simulation(canvas, id) {
 
 
   this.init = () => {
+    var Sim = this;
     utils.resizeCanvasToDisplaySize(this.canvas);
     this.radius = this.canvas.width < 400 ? 4 : 5;
     document.querySelectorAll('.replay-button')[this.id].onclick = this.replay;
@@ -51,26 +52,25 @@ export default function Simulation(canvas, id) {
             'max': 100
         }
       });
-      var Sim = this;
       var outputInfectionChance = document.getElementById('transmissionRatio');
       sliderInfectionChance.noUiSlider.on('update', function (values, handle) {
-          outputInfectionChance.innerHTML = `Spread chance: ${values[handle]}%`;
+          outputInfectionChance.innerHTML = `${values[handle]}`;
           Sim.transmissionRatio = values[handle]/100;
       });
 
       const sliderInfectionDuration = document.getElementById("slider-infection-duration");
       noUiSlider.create(sliderInfectionDuration, {
-        start: this.duration/60,
+        start: this.infectionDuration/60,
         connect: 'lower',
         range: {
             'min': 0,
-            'max': 10
+            'max': 15
         }
       });
 
       var outputInfectionDuration = document.getElementById('infectionDuration');
       sliderInfectionDuration.noUiSlider.on('update', function (values, handle) {
-          outputInfectionDuration.innerHTML = `Duration: ${values[handle]}s`;
+          outputInfectionDuration.innerHTML = `${values[handle]}`;
           Sim.infectionDuration = values[handle]*60;
       });
     }
@@ -80,7 +80,7 @@ export default function Simulation(canvas, id) {
       checkBox.checked = this.isLockdown;
       checkBox.onclick = this.toggleLockdown;
 
-      const slider = document.getElementById("slider-range");
+      const slider = document.getElementById("slider-cooperation");
       noUiSlider.create(slider, {
         start: 100,
         connect: 'lower',
@@ -90,8 +90,8 @@ export default function Simulation(canvas, id) {
         }
       });
       var outputLR = document.getElementById('lockdownRatio');
-      slider.noUiSlider.on('change', function (values, handle) {
-          outputLR.innerHTML = `Cooperation: ${values[handle]}%`;
+      slider.noUiSlider.on('update', function (values, handle) {
+          outputLR.innerHTML = `${values[handle]}%`;
           Sim.lockdownRatio = values[handle]/100;
       });
     }

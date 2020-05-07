@@ -79,7 +79,7 @@
     <!--controls-->
     <div class="sim-controls">
       <div>
-        <p class="sim-caption">Toy model. n = 250 Infection chance: 50%, duration: 8s</p>
+        <p class="sim-caption">Toy model. n = 250 Infect chance: 50%, duration: 8s. Create your own below.</p>
       </div>
       <div class="justify-end">
         <button class="replay-button" id="replay-button0">
@@ -97,8 +97,7 @@
         frameborder="0"></iframe>
       <p>
         To get a better intuitive understanding of how such exponential growth occurs, it can be helpful to
-        visualize how epidemics spread. Let’s make some extremely simplified assumptions about how
-        a hypothetical disease spreads. Given a
+        visualize the hypothetical spread of a disease. Let’s make some very simplified assumptions about our disease -- given a
         population of 250 people, assume that there are three states for individuals:
       </p>
 
@@ -122,7 +121,7 @@
             of measles, mumps, and rubella, and that these individuals are not able to spread the disease further.</p>
         </li>
       </ol>
-      <h2>Infection chance and duration</h2>
+      <h2>Infection chance & duration</h2>
       <p>
         What would we expect to happen if we change the chance of infection? We can think of infection chance as a proxy
         for protective measures such as better hygiene, wearing of face masks, and overall caution. Let’s see how our
@@ -159,19 +158,25 @@
     </div>
 
     <!--controls-->
-    <div class="flex-row text-small justify-end">
-      <span id="transmissionRatio">Infection chance %:</span>
+    <div class="flex-row mt-1">
+      <div class="flex-row text-small justify-between w50">
+        <span>Spread chance:</span>
+        <span id="transmissionRatio"></span>
+      </div>
       <div class="slider-container">
         <div id="slider-infection-chance"></div>
       </div>
     </div>
-    <div class="flex-row text-small">
-      <span id="infectionDuration">Infection duration:</span>
+    <div class="flex-row mt-1">
+      <div class="flex-row text-small justify-between w50">
+        <span>Infect Duration:</span>
+        <span id="infectionDuration"></span>
+      </div>
       <div class="slider-container">
         <div id="slider-infection-duration"></div>
       </div>
     </div>
-    <div class="sim-controls">
+    <div class="flex-row justify-end">
         <button class="replay-button" id="replay-button1">
           <i class="fa fa-undo" aria-hidden="true"></i>
         </button>
@@ -183,7 +188,7 @@
       our model
       being fairly sensitive to changes in duration as well.
     </p>
-    <h2>Social distancing and lockdown</h2>
+    <h2>Social distancing & lockdown</h2>
     <p>
       Since one of our conditions of spread is human to human proximity or contact, let’s visualize what happens when we
       ask people to stay at home. If 100% of the population stops moving, the infection dies fairly quickly and isn’t
@@ -221,23 +226,23 @@
     </div>
 
     <!--controls-->
-    <div class="flex-row">
-      <span id="lockdownRatio">Cooperation %:</span>
-      <div class="slider-container">
-        <div id="slider-range"></div>
-      </div>
-    </div>
     <div class="sim-controls">
-      <div class="switch-group flex-row">
-        <label class="controls switch">
-          <input type="checkbox" id="lockdownCheckbox">
-          <span class="slider round"></span>
-        </label>
-        <label>Shelter in place</label>
+      <div class="switch-container">
+      <input type="checkbox" class="checkbox" id="lockdownCheckbox" />  
+      <label for="lockdownCheckbox" class="switch">Lockdown</label>
       </div>
       <button class="replay-button" id="replay-button2">
         <i class="fa fa-undo" aria-hidden="true"></i>
       </button>
+    </div>
+    <div class="flex-row mt-1">
+      <div class="flex-row text-small justify-between w50">
+        <span>Cooperation:</span>
+        <span id="lockdownRatio"></span>
+      </div>
+      <div class="slider-container pr-4">
+        <div id="slider-cooperation"></div>
+      </div>
     </div>
     <p>
       We can see that the earlier we issue the lockdown, the less spread there is. Also, lifting the lockdown too soon
@@ -281,17 +286,14 @@
       <canvas class="simulation" id="simulation3"></canvas>
     </div>
     <!-- controls -->
-    <div class="sim-controls">
-      <div class="switch-group flex-row">
-        <label class="controls switch">
-          <input type="checkbox" id="restrictionCheckbox">
-          <span class="slider round"></span>
-        </label>
-        <label class="bold">Restrict Travel</label>
-      </div>
-      <button class="replay-button" id="replay-button3">
-        <i class="fa fa-undo" aria-hidden="true"></i>
-      </button>
+      <div class="sim-controls">
+        <div class="switch-container">
+        <input type="checkbox" class="checkbox" id="restrictionCheckbox" />  
+        <label for="restrictionCheckbox" class="switch">Restrict Travel</label>
+        </div>
+        <button class="replay-button" id="replay-button3">
+          <i class="fa fa-undo" aria-hidden="true"></i>
+        </button>
 
     </div>
 
@@ -319,7 +321,7 @@
           method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate"
           target="_blank" novalidate>
           <div id="mc_embed_signup_scroll">
-            <h2>I'm starting a blog</h2>
+            <h2>Subscribe</h2>
             <div class="mc-field-group">
               <p>
                 If you're interested in reading my thoughts periodically, sign up for my email list.

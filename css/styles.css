@@ -40,11 +40,18 @@
 }
 
 .replay-button {
-  max-width:32px;
+  max-width:42px;
+  height:42px;
   cursor:pointer;
-  background-color:#FFFFFF;
+  color:#093A3E;
+  background-color:white;
+  border:1px solid #093A3E;
+  border-radius: 4px;
   padding:0;
   margin:0;
+  font-size:1.25em;
+  flex-grow:1;
+  margin-left:5px;
 }
 
 .replay-button:hover {
@@ -67,7 +74,7 @@
 .sim-overlay .overlay-button {
   all:unset;
   cursor:pointer;
-  font-size:1.25em;
+  font-size:1.125em;
 }
 
 .sim-overlay .overlay-button:hover {
@@ -81,7 +88,7 @@
 
 .chart-container canvas.status-charts {
   display:block;
-  height:95px;
+  height:85px;
   border-bottom:1px solid black;
   border-left:1px solid black;
   border-top:none;
@@ -108,7 +115,7 @@
   display:flex;
   justify-content:space-between;
   align-items:flex-end;
-  line-height:2em;
+  line-height:1.75em;
 }
 
 .chart-container .legend .label-value {
@@ -137,8 +144,9 @@ li p {
 }
 .slider-container {
   flex-grow:3;
-  padding-left:1em;
-  padding-right:1em;
+  padding-left:0.5em;
+  padding-top:0.25em;
+  align-items:center;
 }
 
 .slider {
@@ -168,10 +176,13 @@ li p {
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  background: #4CAF50;
+  background: #f66654;
   cursor: pointer;
 }
 
+.noUi-connect {
+  background: #f66654;
+}
 
 @media only screen and (max-device-width:480px) {
   .page-container {
