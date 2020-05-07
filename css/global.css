@@ -1,7 +1,7 @@
 :root {
   --color-healthy: #63c2db;
   --color-infected: #f66654;
-  --color-removed: gray;
+  --color-rremoved: gray;
   --color-accent-1:#FFEEE2;
   --font-1: 'Libre Baskerville', serif;
 }
@@ -9,24 +9,25 @@
 html {
   font-family: var(--font-1);
   font-weight:regular;
-  font-size:1em;
-  line-height:2em;
+  font-size:16px;
   height:100%;
-  margin-top:30px;
+  margin-top:2em;
 }
 
 body {
   height:100%;
-  margin:0;
   padding:0;
+  margin:0;
 }
 
 .section-text {
-  padding:16px 0;
+  padding:1em 0;
 }
+
 p {
   padding:8px 0 16px 0;
-  line-height:2;
+  font-size:1rem;
+  line-height:1.5em;
 }
 .align-top {
   align-items:flex-start;
@@ -45,11 +46,13 @@ p {
   text-align:center;
 }
 
+.text-small {
+  font-size:0.813em;
+}
 .author {
   color:#aaa;
-  font-size:11pt;
   font-weight:400;
-  line-height:10px;
+  line-height:1.5em;
 }
 .navbar {
   display:flex;
@@ -263,9 +266,6 @@ p.small {
 }
 
 @media only screen and (max-device-width: 480px) {
-  p {
-    font-size:1em;
-  }
   .page-container {
     margin:32px;
     max-width:none;
@@ -274,12 +274,12 @@ p.small {
     height:60px;
     width:100%; 
     border:1px solid gray;
-    font-size:2em;
+    font-size:2rem;
   
   }
 
   .mc-input-label {
-    font-size:1.8em;
+    font-size:1.8rem;
   }
 
   
@@ -293,7 +293,7 @@ p.small {
     font-weight:700;
     cursor:pointer;
     transition:all 0.3s;
-    font-size:2em;
+    font-size:2rem;
   
   }
   

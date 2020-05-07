@@ -3,8 +3,10 @@
 <html lang="en">
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
   <title>Visualizing an Epidemic</title>
+  <link href="css/nouislider.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/styles.css">
@@ -66,10 +68,10 @@
     </div>
     <!--sim 0-->
     <div class="sim-container">
-      <div class="sim-overlay">
-        <button class="overlay-button" id="replay0">
+      <div class="sim-overlay" id="replay0">
+        <button class="overlay-button">
           <i class="fa fa-undo" aria-hidden="true"></i>
-          New Simulation</p>
+          New Simulation
         </button>
       </div>
       <canvas class="simulation" id="simulation0"></canvas>
@@ -147,8 +149,8 @@
     </div>
     <!--sim 1-->
     <div class="sim-container">
-      <div class="sim-overlay">
-        <button class="overlay-button" id="replay1">
+      <div class="sim-overlay" id="replay1">
+        <button class="overlay-button">
           <i class="fa fa-undo" aria-hidden="true"></i>
           New Simulation
         </button>
@@ -157,20 +159,22 @@
     </div>
 
     <!--controls-->
+    <div class="flex-row text-small justify-end">
+      <span id="transmissionRatio">Infection chance %:</span>
+      <div class="slider-container">
+        <div id="slider-infection-chance"></div>
+      </div>
+    </div>
+    <div class="flex-row text-small">
+      <span id="infectionDuration">Infection duration:</span>
+      <div class="slider-container">
+        <div id="slider-infection-duration"></div>
+      </div>
+    </div>
     <div class="sim-controls">
-      <div class="justify-end">
-        <label class="controls" for="transmissionRatio">Infection chance (%):</label>
-        <input class="input-box" type="number" id="transmissionRatio" min="0" max="100">
-      </div>
-      <div class="justify-end">
-        <label class="controls" for="infectionDurationEntry">Infection duration:</label>
-        <input class="input-box" type="number" id="infectionDurationEntry" min="0" max="10">
-      </div>
-      <div class="justify-end">
         <button class="replay-button" id="replay-button1">
           <i class="fa fa-undo" aria-hidden="true"></i>
         </button>
-      </div>
     </div>
     <p>
       If we assume you self quarantine once you are symptomatic, we can use duration as a proxy for the incubation
@@ -207,8 +211,8 @@
     </div>
     <!--sim 1-->
     <div class="sim-container">
-      <div class="sim-overlay">
-        <button class="overlay-button" id="replay2">
+      <div class="sim-overlay" id="replay2">
+        <button class="overlay-button">
           <i class="fa fa-undo" aria-hidden="true"></i>
           New Simulation
         </button>
@@ -217,6 +221,12 @@
     </div>
 
     <!--controls-->
+    <div class="flex-row">
+      <span id="lockdownRatio">Cooperation %:</span>
+      <div class="slider-container">
+        <div id="slider-range"></div>
+      </div>
+    </div>
     <div class="sim-controls">
       <div class="switch-group flex-row">
         <label class="controls switch">
@@ -225,15 +235,10 @@
         </label>
         <label>Shelter in place</label>
       </div>
-      <div class="justify-end">
-        <label class="controls" for="lockdownRatio">Cooperation %:</label>
-        <input class="input-box" type="number" id="lockdownRatio" min="0" max="100">
-      </div>
       <button class="replay-button" id="replay-button2">
         <i class="fa fa-undo" aria-hidden="true"></i>
       </button>
     </div>
-
     <p>
       We can see that the earlier we issue the lockdown, the less spread there is. Also, lifting the lockdown too soon
       can cause a resurgence of cases, if the spread of infection is unmitigated.
@@ -267,8 +272,8 @@
     <!--sim 3-->
     <div class="sim-container">
       <div id="sim-travel-divider"></div>
-      <div class="sim-overlay">
-        <button class="overlay-button" id="replay3">
+      <div class="sim-overlay" id="replay3">
+        <button class="overlay-button">
           <i class="fa fa-undo" aria-hidden="true"></i>
           New Simulation
         </button>

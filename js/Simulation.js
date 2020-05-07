@@ -2,6 +2,7 @@ import Circle from './Circle';
 import * as utils from './utils';
 import { charts } from './app.js';
 import { colorList } from './colorList.js';
+import noUiSlider from './nouislider.js';
 
 
 export default function Simulation(canvas, id) {
@@ -14,7 +15,7 @@ export default function Simulation(canvas, id) {
   this.inView = false;
 
   this.duration = 1800;
-  this.speed = 1.5;
+  this.speed = 1.1;
   this.radius = 5;
   this.totalCount = 250;
 
@@ -33,28 +34,45 @@ export default function Simulation(canvas, id) {
 
   this.init = () => {
     utils.resizeCanvasToDisplaySize(this.canvas);
-    this.radius = this.canvas.width > 700 ? 8 : 5;
-    this.circleList = []
-    this.healthyCount = this.totalCount;
-    this.infectedCount = 0;
-    this.removedCount = 0;
-    this.frameCount = 0;
+    this.radius = this.canvas.width < 400 ? 4 : 5;
     document.querySelectorAll('.replay-button')[this.id].onclick = this.replay;
     document.getElementById(`replay${this.id}`).onclick = this.replay;
 
     if (this.id === 1) {
-      const inputTR = document.getElementById('transmissionRatio');
+      this.duration = 2400;
       this.transmissionRatio = 0.25;
-      inputTR.value = this.transmissionRatio * 100;
-      inputTR.onchange = () => {
-        this.transmissionRatio = inputTR.value / 100;
-      }
 
-      const inputDuration = document.getElementById('infectionDurationEntry');
-      inputDuration.value = this.infectionDuration / 60;
-      inputDuration.onchange = () => {
-        this.infectionDuration = inputDuration.value * 60;
-      }
+      const sliderInfectionChance = document.getElementById("slider-infection-chance");
+      noUiSlider.create(sliderInfectionChance, {
+        start: this.transmissionRatio*100,
+        connect: 'lower',
+        range: {
+            'min': 0,
+            'max': 100
+        }
+      });
+      var Sim = this;
+      var outputInfectionChance = document.getElementById('transmissionRatio');
+      sliderInfectionChance.noUiSlider.on('update', function (values, handle) {
+          outputInfectionChance.innerHTML = `Spread chance: ${values[handle]}%`;
+          Sim.transmissionRatio = values[handle]/100;
+      });
+
+      const sliderInfectionDuration = document.getElementById("slider-infection-duration");
+      noUiSlider.create(sliderInfectionDuration, {
+        start: this.duration/60,
+        connect: 'lower',
+        range: {
+            'min': 0,
+            'max': 10
+        }
+      });
+
+      var outputInfectionDuration = document.getElementById('infectionDuration');
+      sliderInfectionDuration.noUiSlider.on('update', function (values, handle) {
+          outputInfectionDuration.innerHTML = `Duration: ${values[handle]}s`;
+          Sim.infectionDuration = values[handle]*60;
+      });
     }
 
     if (this.id === 2) {
@@ -62,60 +80,28 @@ export default function Simulation(canvas, id) {
       checkBox.checked = this.isLockdown;
       checkBox.onclick = this.toggleLockdown;
 
-      const inputLR = document.getElementById('lockdownRatio');
-      inputLR.value = this.lockdownRatio * 100;
-      inputLR.onchange = () => {
-        this.lockdownRatio = inputLR.value / 100;
-      }
+      const slider = document.getElementById("slider-range");
+      noUiSlider.create(slider, {
+        start: 100,
+        connect: 'lower',
+        range: {
+            'min': 0,
+            'max': 100
+        }
+      });
+      var outputLR = document.getElementById('lockdownRatio');
+      slider.noUiSlider.on('change', function (values, handle) {
+          outputLR.innerHTML = `Cooperation: ${values[handle]}%`;
+          Sim.lockdownRatio = values[handle]/100;
+      });
     }
 
     if (this.id === 3) {
       document.getElementById('restrictionCheckbox').onclick = this.toggleRestriction;
       this.isRestricted = document.getElementById('restrictionCheckbox').checked;
     }
-    //Initialize circles
-    for (let i = 0; i < this.totalCount; i++) {
-      const x = utils.mathRandomInRange(0 + this.radius, this.canvas.width - this.radius);
-      const y = utils.mathRandomInRange(0 + this.radius, this.canvas.height - this.radius);
-      const dx = utils.mathRandomInRangeFloat(-this.speed, this.speed);
-      const dy = utils.mathRandomInRangeFloat(-this.speed, this.speed);
-      const tempCircle = new Circle(this.c, x, y, dx, dy, this.radius);
-      tempCircle.lockedDown = this.isLockdown;
-      //No overlap on spawn
-      if (i !== 0) {
-        for (let j = 0; j < this.circleList.length; j++) {
-          if (utils.hasCollision(this.circleList[j], tempCircle)) {
-            tempCircle.x = utils.mathRandomInRange(0 + this.radius, this.canvas.width - this.radius);
-            tempCircle.y = utils.mathRandomInRange(0 + this.radius, this.canvas.height - this.radius);
-            j = -1;
-          }
-        }
-      }
-      //No overlap with divider
-      if (this.isRestricted) {
-        this.circleList.forEach(a => {
-          if (a.x < (this.canvas.width / 2) + 10 && a.x > (this.canvas.width / 2) - 10) {
-            a.x -= 20;
-          }
-        })
-      }
-      this.circleList.push(tempCircle);
-    }
 
-    // Set seed number of infected
-    for (let i = 0; i < 2; i++) {
-      this.circleList[i].isInfected = true;
-      this.circleList[i].color = colorList.infected;
-      this.infectedCount += 1;
-      this.healthyCount -= 1;
-      if (this.id === 3) {
-        this.circleList[i].x *= 0.2;
-      }
-    }
-
-    this.circleList.forEach((a) => {
-      a.update();
-    });
+    initCircles(this);
   }; // this.init
 
   this.animate = () => {
@@ -133,12 +119,10 @@ export default function Simulation(canvas, id) {
               a.color = colorList.infected;
               a.isInfected = true;
               a.isHealthy = false;
-              a.infectionFrame += 1;
 
               b.color = colorList.infected;
               b.isInfected = true;
               b.isHealthy = false;
-              b.infectionFrame += 1;
 
               this.healthyCount -= 1;
               this.infectedCount += 1;
@@ -208,8 +192,60 @@ export default function Simulation(canvas, id) {
       charts[this.id].time = 0;
 
       window.cancelAnimationFrame(this.animation);
+      this.healthyCount = this.totalCount;
+      this.infectedCount = 0;
+      this.removedCount = 0;
+      this.frameCount = 0;
+      this.circleList = [];
 
-      this.init();
+      initCircles(this);
       this.animate();
     };
+}
+
+function initCircles(sim) {
+  
+    //Initialize circles
+    for (let i = 0; i < sim.totalCount; i++) {
+      const x = utils.mathRandomInRange(0 + sim.radius, sim.canvas.width - sim.radius);
+      const y = utils.mathRandomInRange(0 + sim.radius, sim.canvas.height - sim.radius);
+      const dx = utils.mathRandomInRangeFloat(-sim.speed, sim.speed);
+      const dy = utils.mathRandomInRangeFloat(-sim.speed, sim.speed);
+      const tempCircle = new Circle(sim.c, x, y, dx, dy, sim.radius);
+      tempCircle.lockedDown = sim.isLockdown;
+      //No overlap on spawn
+      if (i !== 0) {
+        for (let j = 0; j < sim.circleList.length; j++) {
+          if (utils.hasCollision(sim.circleList[j], tempCircle)) {
+            tempCircle.x = utils.mathRandomInRange(0 + sim.radius, sim.canvas.width - sim.radius);
+            tempCircle.y = utils.mathRandomInRange(0 + sim.radius, sim.canvas.height - sim.radius);
+            j = -1;
+          }
+        }
+      }
+      //No overlap with divider
+      if (sim.isRestricted) {
+        sim.circleList.forEach(a => {
+          if (a.x < (sim.canvas.width / 2) + 10 && a.x > (sim.canvas.width / 2) - 10) {
+            a.x -= 20;
+          }
+        })
+      }
+      sim.circleList.push(tempCircle);
+    }
+
+    // Set seed number of infected
+    for (let i = 0; i < 1; i++) {
+      sim.circleList[i].isInfected = true;
+      sim.circleList[i].infectionFrame = -360;
+      sim.circleList[i].color = colorList.infected;
+      sim.infectedCount += 1;
+      sim.healthyCount -= 1;
+      if (sim.id === 3) {
+        sim.circleList[i].x *= 0.2;
+      }
+    }
+    sim.circleList.forEach((a) => {
+      a.update();
+    });
 }

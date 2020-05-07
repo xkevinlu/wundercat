@@ -3,7 +3,7 @@
   width:100%;
   display:block;
   position:relative;
-  margin:16px 0;
+  margin:0.5em 0;
 }
 
 .sim-container canvas.simulation {
@@ -13,23 +13,10 @@
   border:1px solid rgba(0,0,0,0.5);
 }
 
-.sim-container .sim-overlay {
-  width:100%;
-  height:100%;
-  position:absolute;
-  top:0;
-  left:0;
-  background-color: rgba(255,255,255,0.8);
-  z-index:10;
-  display:none;
-  justify-content:center;
-  align-items:center;
-}
-
 .sim-caption {
   margin:0;
   padding:0;
-  font-size:0.8em;
+  font-size:0.8rem;
   line-height:20px;
 }
 
@@ -63,50 +50,65 @@
 .replay-button:hover {
   opacity:0.5;
 }
-.overlay-button {
-  all:unset;
-  cursor:pointer;
-  font-size:2.5em;
+
+.sim-container .sim-overlay {
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  background-color: rgba(255,255,255,0.8);
+  z-index:10;
+  display:none;
+  justify-content:center;
+  align-items:center;
 }
 
-.overlay-button:hover {
+.sim-overlay .overlay-button {
+  all:unset;
+  cursor:pointer;
+  font-size:1.25em;
+}
+
+.sim-overlay .overlay-button:hover {
   color: gray;
 }
 
 .chart-container {
   display:flex;
+  align-items:center;
 }
 
 .chart-container canvas.status-charts {
   display:block;
-  width:100%;
-  height:90px;
+  height:95px;
   border-bottom:1px solid black;
   border-left:1px solid black;
   border-top:none;
   border-right:none;
-  flex-grow: 1;
+  flex-grow: 4;
 }
 
 
 .chart-container .legend-group {
-  min-width:30%;
+  width:120px;
   /* border:1px solid black; */
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
   flex-grow:1;
-  margin-left:10px;
+  padding-left:1em;
 }
 
 .chart-container .legend {
+  font-size:0.875em;
   padding-bottom:4px;
   padding-top:4px;
   border-bottom:1px solid gray;
   display:flex;
   justify-content:space-between;
   align-items:flex-end;
-  line-height:1.5em;
+  line-height:2em;
 }
 
 .chart-container .legend .label-value {
@@ -133,108 +135,46 @@ li p {
   padding-top:0px;
   margin-top:8px;
 }
-@media only screen and (max-device-width:480px) {
-  .sim-container canvas.simulation {
-    height:600px;
-  }
-
-  .chart-container canvas.status-charts {
-    height:160px;
-  }
-
-  .author {
-    font-size:0.6em;
-    padding:16px;
-  }
-  .legend {
-    font-size:2em;
-  }
-
-  .sim-caption {
-    font-size:1.6em;
-    line-height:1.6em;
-  }
-  .replay-button {
-    height:60px;
-    width:60px;
-    font-size:2em;
-  }
-  .input-box {
-    width:80px;
-    height:60px;
-    background-color:#e7e7e7;
-    border:none;
-    border-bottom:1px solid gray;
-    font-size:2em;
-  }
-
-  .sim-controls label {
-    font-size:1.8em;
-  }
-/* Switch
-
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 80px;
-  height: 52px;
-  margin-right:6px;
+.slider-container {
+  flex-grow:3;
+  padding-left:1em;
+  padding-right:1em;
 }
 
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.switch-group {
-  align-items:center;
-  font-weight:700;
-  margin:0;
-  padding:0;
-}
-
-.switch:hover {
-  opacity: 0.8;
-}
-  /* The slider */
 .slider {
-  position: absolute;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
 }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 44px;
-  width: 44px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
+  cursor: pointer;
 }
 
-input:checked + .slider {
-  background-color: #23001E;
-}
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #23001E;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(28px);
-  -ms-transform: translateX(28px);
-  transform: translateX(28px);
-}
+@media only screen and (max-device-width:480px) {
+  .page-container {
+    margin: 0 1em;
+  }
 }
