@@ -144,6 +144,9 @@ a:link:hover {
   text-decoration:underline;
 }
 
+.topnav a:link {
+  color:#f2f2f2;
+}
 .topnav a:link:visited {
   color:#f2f2f2;
 }
