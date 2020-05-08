@@ -139,17 +139,13 @@ p {
   margin:1em;
 }
 
-a:link {
-  text-decoration:none;
-  color:black;
-}
 
 a:link:hover {
   text-decoration:underline;
 }
 
-a:link:visited {
-  color:black;
+.topnav a:link:visited {
+  color:#f2f2f2;
 }
 
 .page-container {
