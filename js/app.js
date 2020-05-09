@@ -61,7 +61,7 @@ var myChart = new Chart(ctx, {
     options: {
       title: {
         display:true,
-        text: "Total US Coronavirus cases (last 12 weeks)",
+        text: "Total US Coronavirus cases (2/10-5/4)",
       },
       legend: {
         display: false
@@ -71,6 +71,9 @@ var myChart = new Chart(ctx, {
                 labelString: "Total average cases",
                 ticks: {
                     beginAtZero: true,
+                    callback: function(value, index, values) {
+                      return value.toLocaleString();
+                    }
                 },
                 gridLines: {
                   display:true
