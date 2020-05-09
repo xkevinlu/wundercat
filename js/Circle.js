@@ -37,7 +37,7 @@ export default function Circle(c, x, y, dx, dy, radius) {
   };
 
   this.restoreInitVelocity = () => {
-    this.velocity.x = this.velocity.x_init;
-    this.velocity.y = this.velocity.y_init;
+    this.velocity.x = this.velocity.x * Math.abs(this.velocity.x_init/this.velocity.x);
+    this.velocity.y = this.velocity.y * Math.abs(this.velocity.y_init/this.velocity.y);
   }
 }

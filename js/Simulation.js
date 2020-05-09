@@ -39,6 +39,41 @@ export default function Simulation(canvas, id) {
     document.querySelectorAll('.replay-button')[this.id].onclick = this.replay;
     document.getElementById(`replay${this.id}`).onclick = this.replay;
 
+    if (this.id === 0) {
+
+      const sliderInfectionChance0 = document.getElementById("slider-infection-chance-0");
+      noUiSlider.create(sliderInfectionChance0, {
+        start: this.transmissionRatio*100,
+        connect: 'lower',
+        range: {
+            'min': 0,
+            'max': 100
+        }
+      });
+      var outputInfectionChance0 = document.getElementById('transmissionRatio-0');
+      sliderInfectionChance0.noUiSlider.on('update', function (values, handle) {
+          outputInfectionChance0.innerHTML = `${values[handle]}`;
+          Sim.transmissionRatio = values[handle]/100;
+      });
+
+      const sliderInfectionDuration0 = document.getElementById("slider-infection-duration-0");
+      noUiSlider.create(sliderInfectionDuration0, {
+        start: this.infectionDuration/60,
+        connect: 'lower',
+        range: {
+            'min': 0,
+            'max': 15
+        }
+      });
+
+      var outputInfectionDuration0 = document.getElementById('infectionDuration-0');
+      sliderInfectionDuration0.noUiSlider.on('update', function (values, handle) {
+          outputInfectionDuration0.innerHTML = `${values[handle]}`;
+          Sim.infectionDuration = values[handle]*60;
+      });
+    }
+
+
     if (this.id === 1) {
       this.duration = 2400;
       this.transmissionRatio = 0.25;
@@ -89,10 +124,12 @@ export default function Simulation(canvas, id) {
             'max': 100
         }
       });
-      var outputLR = document.getElementById('lockdownRatio');
+      var lockdownFunc = this.toggleLockdown;
       slider.noUiSlider.on('update', function (values, handle) {
-          outputLR.innerHTML = `${values[handle]}%`;
+          document.getElementById('lockdownRatio').innerHTML = `${values[handle]}%`;
           Sim.lockdownRatio = values[handle]/100;
+            lockdownFunc();
+            lockdownFunc();
       });
     }
 

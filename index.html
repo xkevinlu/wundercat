@@ -28,12 +28,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 </head>
 
-<body onscroll="checkScroll()">
+<body>
   
-    <div class="topnav" id="myTopnav">
+    <div class="topnav" id="topnav">
       <a href="#home">Color & Code</a>
-      <a href="#about">About</a>
-      <a href="#contact">Archive</a>
+      <a href="archives.html">Archives</a>
+      <a href="about.html">About</a>
       <a href="javascript:void(0);" class="icon" id="navToggle">
         <i class="fa fa-bars"></i>
       </a>
@@ -72,9 +72,27 @@
       <canvas class="simulation" id="simulation0"></canvas>
     </div>
     <!--controls-->
+    <div class="flex-row mt-1">
+      <div class="flex-row text-small justify-between w50">
+        <span>Spread chance:</span>
+        <span id="transmissionRatio-0"></span>
+      </div>
+      <div class="slider-container">
+        <div id="slider-infection-chance-0"></div>
+      </div>
+    </div>
+    <div class="flex-row mt-1">
+      <div class="flex-row text-small justify-between w50">
+        <span>Infect Duration:</span>
+        <span id="infectionDuration-0"></span>
+      </div>
+      <div class="slider-container">
+        <div id="slider-infection-duration-0"></div>
+      </div>
+    </div>
     <div class="sim-controls">
       <div>
-        <p class="sim-caption">Toy model. n = 250 Infect chance: 50%, duration: 8s. Create your own below.</p>
+        <p class="sim-caption">Toy model, experiment with different values</p>
       </div>
       <div class="justify-end">
         <button class="replay-button" id="replay-button0">
@@ -97,28 +115,26 @@
 
       <ol>
         <li>
-          <b>Healthy (susceptible)</b>
+          <b class="healthy">Healthy (susceptible)</b>
           <p>These individuals are able to contract the disease.</p>
         </li>
         <li>
-          <b>Infectious</b>
+          <b class="infected">Infectious</b>
           <p>
-            These individuals currently have and can spread the disease through close proximity or contact with other
-            healthy individuals. The model above assumes a 50% chance of infection per contact, and that infection lasts
-            for 8 seconds. These values are arbitrary, but give us a baseline to relatively experiment against.
+            These individuals have a chance to spread the disease through contact with other
+            healthy individuals, and will become removed after a period of time.
           </p>
         </li>
         <li>
-          <b>Removed</b>
-          <p>After a certain duration of being infectious, this individual has either recovered or died. We will assume
-            that recovery confers a lasting resistance, so that they cannot become infected again, such as in the case
-            of measles, mumps, and rubella, and that these individuals are not able to spread the disease further.</p>
+          <b class="removed">Removed</b>
+          <p>This individual has either recovered or died from being infectious. We will assume
+            that recovery confers a lasting resistance, so that they cannot become infected again or spread the disease further.</p>
         </li>
       </ol>
       <h2>Infection chance & duration</h2>
       <p>
         What would we expect to happen if we change the chance of infection? We can think of infection chance as a proxy
-        for protective measures such as better hygiene, wearing of face masks, and overall caution. Let’s see how our
+        for protective measures such as better hygiene, wearing of face masks, and overall caution. For instance, let’s see how our
         model responds when we cut the infection rate in half to 25%: </p>
     </section>
     <!-- Chart 1 -->
@@ -176,7 +192,7 @@
         </button>
     </div>
     <p>
-      If we assume you self quarantine once you are symptomatic, we can use duration as a proxy for the incubation
+      We can see that lower chance of spread and duration both strongly help to flatten the curve. If we assume you self quarantine once you are symptomatic, we can use duration as a proxy for the incubation
       period where you might be unknowingly spreading the disease. For example, the CDC estimates the incubation period
       to be 14 days for the coronavirus. Norovirus on the other hand has an incubation period of 1-2 days. We can see
       our model
@@ -296,10 +312,9 @@
       the other half. However, lifting these restrictions too early enable the spread to resurge and make its way
       through the population.
     </p>
-    <h2>Its just a toy model</h2>
+    <h2>Learnings from a toy model</h2>
     <p>
-      While we have grossly oversimplified the spread of our hypothetical epidemic, we can still use these
-      visualizations to calibrate an intuition for the rate of unmitigated spread, how preventative measures can flatten
+      While we have oversimplified the spread of our hypothetical epidemic, we can still develop an intuition for how exponential spread happens, how preventative measures can flatten
       the curve, and why lifting these measures too soon can be harmful.
     </p>
     <p>

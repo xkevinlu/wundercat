@@ -1,6 +1,7 @@
 import Simulation from './Simulation';
 import Areachart from './Areachart';
 import Chart from 'chart.js';
+import * as utils from './utils';
 
 let sims = [];
 export let charts = [];
@@ -14,6 +15,17 @@ for (let i = 0; i < 4; i++) {
 
 sims[0].inView = true;
 sims[0].animate();
+
+window.onresize = function() {
+  sims.forEach(sim => {
+    utils.resizeCanvasToDisplaySize(sim.canvas);
+  })
+};
+
+var x = 0;
+function myFunction() {
+  resizeCanvasToDisplaySize();
+}
 
 window.onscroll = () => {
   sims.forEach((element) => {
@@ -74,7 +86,7 @@ var myChart = new Chart(ctx, {
 });
 
 document.getElementById("navToggle").onclick = function navToggle() {
-  var x = document.getElementById("myTopnav");
+  var x = document.getElementById("topnav");
   if (x.className === "topnav") {
     x.className += " responsive";
   } else {
