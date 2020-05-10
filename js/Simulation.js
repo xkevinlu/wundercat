@@ -14,7 +14,7 @@ export default function Simulation(canvas, id) {
   this.animation;
   this.inView = false;
 
-  this.duration = 1800;
+  this.duration = 2400;
   this.speed = 1.1;
   this.radius = 5;
   this.totalCount = 250;
@@ -35,7 +35,7 @@ export default function Simulation(canvas, id) {
   this.init = () => {
     var Sim = this;
     utils.resizeCanvasToDisplaySize(this.canvas);
-    this.radius = this.canvas.width < 400 ? 4 : 5;
+    this.radius = this.canvas.width < 400 ? 3 : 5;
     document.querySelectorAll('.replay-button')[this.id].onclick = this.replay;
     document.getElementById(`replay${this.id}`).onclick = this.replay;
 
@@ -62,7 +62,7 @@ export default function Simulation(canvas, id) {
         connect: 'lower',
         range: {
             'min': 0,
-            'max': 15
+            'max': 12
         }
       });
 
@@ -99,7 +99,7 @@ export default function Simulation(canvas, id) {
         connect: 'lower',
         range: {
             'min': 0,
-            'max': 15
+            'max': 12
         }
       });
 
@@ -274,7 +274,8 @@ function initCircles(sim) {
     // Set seed number of infected
     for (let i = 0; i < 1; i++) {
       sim.circleList[i].isInfected = true;
-      sim.circleList[i].infectionFrame = -360;
+      sim.circleList[i].velocity.x = utils.mathRandomInRange(0, 1) > 0.5 ? -sim.speed*1.5 : sim.speed*1.5;
+      sim.circleList[i].velocity.y = utils.mathRandomInRange(0, 1) > 0.5 ? -sim.speed*1.5 : sim.speed*1.5;
       sim.circleList[i].color = colorList.infected;
       sim.infectedCount += 1;
       sim.healthyCount -= 1;
