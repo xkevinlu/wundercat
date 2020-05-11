@@ -88,7 +88,9 @@
 }
 
 .chartjs-container {
-  max-height:300px;
+  position:relative;
+  height:50vh;
+  width:100vw;
 }
 
 

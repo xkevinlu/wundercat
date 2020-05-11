@@ -176,6 +176,7 @@ var myChart = new Chart(chart1, {
     }]
   },
   options: {
+    maintainAspectRatio: false,
     title: {
       display: true,
       text: "Total US Coronavirus cases (2/10-5/4)",
