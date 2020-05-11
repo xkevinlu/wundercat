@@ -8,10 +8,14 @@ let sims = [];
 export let charts = [];
 
 for (let i = 0; i < 4; i++) {
+  if (document.getElementById(`simulation${i}`)) {
   sims[i] = new Simulation(document.getElementById(`simulation${i}`), i);
   sims[i].init();
+  }
+  if (document.getElementById(`chart${i}`)) {
   charts[i] = new Areachart(sims[i], document.getElementById(`chart${i}`));
   charts[i].init();
+  }
 }
 
 //Init sim 0
@@ -48,8 +52,9 @@ sliderInfectionDuration0.noUiSlider.on('update', function (values, handle) {
 });
 
 //Init sim 1
-sims[1].transmissionRatio = 0.25;
 
+if (document.getElementById("slider-infection-chance")) {
+sims[1].transmissionRatio = 0.25;
 const sliderInfectionChance = document.getElementById("slider-infection-chance");
 noUiSlider.create(sliderInfectionChance, {
   start: sims[1].transmissionRatio * 100,
@@ -78,8 +83,10 @@ sliderInfectionDuration.noUiSlider.on('update', function (values, handle) {
   document.getElementById('infectionDuration').innerHTML = `${values[handle]}`;
   sims[1].infectionDuration = values[handle] * 60;
 });
+}
 
 //Init sim 2
+if (document.getElementById('lockdownCheckbox')) {
 const checkBox = document.getElementById('lockdownCheckbox');
 checkBox.checked = sims[2].isLockdown;
 checkBox.onclick = sims[2].toggleLockdown;
@@ -100,7 +107,10 @@ sliderCoop.noUiSlider.on('update', function (values, handle) {
   sims[2].toggleLockdown();
 });
 
+}
+
 // Init sim 3
+if (document.getElementById('restrictionCheckbox')) {
 document.getElementById('restrictionCheckbox').onclick = sims[3].toggleRestriction;
 sims[3].isRestricted = document.getElementById('restrictionCheckbox').checked;
 
@@ -110,7 +120,7 @@ window.onresize = () => {
     resizeCanvasToDisplaySize(sim.canvas);
   })
 };
-
+}
 //Start sim when scrolled to
 window.onscroll = () => {
   sims.forEach((element) => {
@@ -132,6 +142,7 @@ window.onscroll = () => {
 }
 
 //Nav dropdown on mobile
+if (document.getElementById("navToggle")) {
 document.getElementById("navToggle").onclick = function navToggle() {
   var x = document.getElementById("topnav");
   if (x.className === "topnav") {
@@ -140,8 +151,9 @@ document.getElementById("navToggle").onclick = function navToggle() {
     x.className = "topnav";
   }
 }
-
+}
 //Init chart.js chart
+if (document.getElementById('myChart')) {
 var chart1 = document.getElementById('myChart');
 var myChart = new Chart(chart1, {
   type: 'line',
@@ -183,3 +195,4 @@ var myChart = new Chart(chart1, {
     }
   }
 });
+}
