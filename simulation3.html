@@ -1,0 +1,70 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="description" content="An interactive simulation for understanding epidemics">
+  <meta name="keywords" content="coronavirus, simulation, interactive, visualization">
+  <meta property="og:image" content="https://www.colorsandcode.com/assets/visualizing-an-epidemic/splash2.PNG"/>
+  <meta name="author" content="Kevin Lu">
+  <title>Epidemic Simulation 3</title>
+  <link href="css/nouislider.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="page-container">
+     <!--chart 3-->
+     <div class="chart-container">
+      <canvas class="status-charts" id="chart3">
+      </canvas>
+      <div class="legend-group">
+        <div class="legend">
+          <label class="label-name">Healthy</label>
+          <label class="label-value healthy" id="healthy3"></label>
+        </div>
+        <div class="legend">
+          <label class="label-name">Infected</label>
+          <label class="label-value infected" id="infected3"></label>
+        </div>
+        <div class="legend legend-last">
+          <label class="label-name">Removed</label>
+          <label class="label-value removed" id="removed3"></label>
+        </div>
+      </div>
+    </div>
+    <!--sim 3-->
+    <div class="sim-container">
+      <div id="sim-travel-divider"></div>
+      <div class="sim-overlay" id="replay3">
+        <button class="overlay-button">
+          <i class="fa fa-undo" aria-hidden="true"></i>
+          New Simulation
+        </button>
+      </div>
+      <canvas class="simulation" id="simulation3"></canvas>
+    </div>
+    <!-- controls -->
+      <div class="sim-controls">
+        <div class="switch-container">
+        <input type="checkbox" class="checkbox" id="restrictionCheckbox" />  
+        <label for="restrictionCheckbox" class="switch">Restrict Travel</label>
+        </div>
+        <button class="replay-button" id="replay-button3">
+          <i class="fa fa-undo" aria-hidden="true"></i>
+        </button>
+
+    </div>
+  </div>
+  <!--page container-->
+  <script src="dist/bundle.js" type="text/javascript"></script>
+</body>
+
+</html>

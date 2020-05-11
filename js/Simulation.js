@@ -34,7 +34,12 @@ export default function Simulation(canvas, id) {
     var Sim = this;
     utils.resizeCanvasToDisplaySize(this.canvas);
     this.radius = this.canvas.width < 400 ? 3 : 5;
+    if (document.querySelectorAll('.replay-button').length > 1) {
     document.querySelectorAll('.replay-button')[this.id].onclick = this.replay;
+    } else {
+      document.querySelectorAll('.replay-button')[0].onclick = this.replay;
+
+    }
     document.getElementById(`replay${this.id}`).onclick = this.replay;
 
     initCircles(this);

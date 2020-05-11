@@ -19,6 +19,7 @@ for (let i = 0; i < 4; i++) {
 }
 
 //Init sim 0
+if (sims[0]) { 
 sims[0].inView = true;
 sims[0].animate();
 
@@ -50,6 +51,7 @@ sliderInfectionDuration0.noUiSlider.on('update', function (values, handle) {
   document.getElementById('infectionDuration-0').innerHTML = `${values[handle]}`;
   sims[0].infectionDuration = values[handle] * 60;
 });
+}
 
 //Init sim 1
 
