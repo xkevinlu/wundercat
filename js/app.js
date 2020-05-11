@@ -30,8 +30,6 @@ sims.forEach((element) => {
 
 //Init sim 0
 if (sims[0]) { 
-sims[0].inView = true;
-sims[0].animate();
 const sliderInfectionChance0 = document.getElementById("slider-infection-chance-0");
 noUiSlider.create(sliderInfectionChance0, {
   start: sims[0].transmissionRatio * 100,
