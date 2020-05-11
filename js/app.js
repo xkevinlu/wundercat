@@ -18,11 +18,20 @@ for (let i = 0; i < 4; i++) {
   }
 }
 
+//Start for solo components, turn off in full page to avoid autostart
+sims.forEach((element) => {
+  if (element.canvas.getBoundingClientRect().top < window.innerHeight &&
+    element.canvas.getBoundingClientRect().bottom > 50 &&
+    !element.inView) {
+    element.inView = true;
+    element.animate();
+    }})
+
+
 //Init sim 0
 if (sims[0]) { 
 sims[0].inView = true;
 sims[0].animate();
-
 const sliderInfectionChance0 = document.getElementById("slider-infection-chance-0");
 noUiSlider.create(sliderInfectionChance0, {
   start: sims[0].transmissionRatio * 100,
