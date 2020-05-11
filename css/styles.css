@@ -87,6 +87,11 @@
   align-items:center;
 }
 
+.chartjs-container {
+  max-height:300px;
+}
+
+
 .chart-container canvas.status-charts {
   display:block;
   height:85px;
